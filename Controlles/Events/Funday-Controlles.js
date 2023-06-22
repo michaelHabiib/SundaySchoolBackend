@@ -1,4 +1,3 @@
-
 import Funday from "../../Modal/Events/Funday";
 import User from "../../Modal/User";
 import dotenv from 'dotenv'
@@ -19,6 +18,8 @@ export const AddNewBook = async (req,res,next) =>{
             // console.log(error);
             return res.status(400).json({message : "bad Request"})
         }
+    }else{
+        res.status(404).json({message : 'can\'t Find user with this code'})
     }
     
 }

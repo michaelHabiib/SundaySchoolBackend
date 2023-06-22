@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import User from "../Modal/User";
+import Att from "../Modal/Events/Att";
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -81,10 +82,30 @@ export const GetUsersByYear = async (req, res, next) => {
 export const GetUserBycode =  async(req, res, next) =>{
   const ExactCode =  req.params.code
   let user
+
   try {
     user =  await User.find({code : ExactCode})
-    return res.status(200).json({user})
+    if(user){
+      return res.status(200).json({user})
 
+    }else{
+      return res.status(404).json({message : "can't find a User with this code"})
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+export const GatAttOfUser = async(req, res, next) => {
+  const code = req.params.code
+  let user
+  try {
+    user =  await Att.find({code : code})
+    if(user){
+      return res.status(200).json({user})
+
+    }else{
+      return res.status(404).json({message : "can't find a User with this code"})
+    }
   } catch (error) {
     console.log(error);
   }

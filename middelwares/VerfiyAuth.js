@@ -63,11 +63,11 @@ export async function Verfiychoice (req, res, next){
         const count = await Funday.countDocuments({ color: color })
             if(count+1){
                 if ((count+1) > 5) {
-                    console.log(count + 1);
+                    // console.log(count + 1);
                     res.status(400).json({ message: 'this group is no more Avaliable' });
                     return;
                   } else if ((count + 1) <= 5) {
-                    console.log(count + 1);
+                    // console.log(count + 1);
                     next();
                   }
             }else{
