@@ -28,6 +28,22 @@ const userSchema = new schema(
       enum: ['baby Class', 'kg1', 'kg2','prim1'],
       required: [true, "Your study Year is Required"],
     },
+    bulidingNumber : {
+      type: Number,
+      required :[true, 'your Building Number is Required']
+    },
+    street : {
+      type : String,
+      required : [true, 'Your Street Name is Required']
+    },
+    Area :{
+      type : String,
+      required : [true,' Your Area is Required']
+    },
+    BirthdayDate : {
+      type: String,
+      required : [true, 'Your Birthday Date is Required']
+    },
     att : [{type : mongoose.Types.ObjectId, ref : "Att"}]
   },
   { timestamps: true }

@@ -14,7 +14,7 @@ function generateRandomCode() {
   return random.toString(); // convert number to string
 }
 export const AddNewUser = async(req,res,next) => {
-    const {code,name,email,password,phone,year} = req.body
+    const {code,name,email,password,phone,year,bulidingNumber,street,Area,BirthdayDate} = req.body
     const existUser = await User.findOne({email});
     if(existUser){
         // console.log(existUser);
@@ -28,7 +28,11 @@ export const AddNewUser = async(req,res,next) => {
     email,
     password: hashPassword,
     phone,
-    year
+    year,
+    bulidingNumber,
+    street,
+    Area,
+    BirthdayDate
     });
     try {
     await user.save()
