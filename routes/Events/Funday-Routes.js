@@ -3,7 +3,7 @@ import { AddNewBook, GetAllFundayRes, GetAllFundayResExcel } from "../../Control
 import { verfiyUser, Verfiychoice , verfiyIsAdmin} from "../../middelwares/VerfiyAuth";
 const FundayRoutes = express.Router();
 
-FundayRoutes.post('/funday', verfiyIsAdmin, verfiyUser, Verfiychoice, AddNewBook)
+FundayRoutes.post('/funday', verfiyUser, Verfiychoice, AddNewBook)
 FundayRoutes.get('/funday', verfiyIsAdmin, GetAllFundayRes)
 FundayRoutes.get('/funday/downloads', verfiyIsAdmin, GetAllFundayResExcel)
 
