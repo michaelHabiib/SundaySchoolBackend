@@ -4,7 +4,7 @@ import userRouter from "./routes/User-Routes";
 import adminRouter from "./routes/Admin-Routes";
 import FundayRoutes from "./routes/Events/Funday-Routes"
 import attRoutes from "./routes/Events/Att-Routes";
-const cors = require('cors');
+import cors from 'cors';
 
 
 const passWord = encodeURIComponent("Michael2023#");
