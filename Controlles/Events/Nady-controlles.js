@@ -6,7 +6,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 export const AddNewBook = async (req,res,next) =>{
-    const {code,color} = req.body
+    const {code,color,duration} = req.body
     const existUser = await User.findOne({code});
     if(existUser){
         const nady = new Nady({
