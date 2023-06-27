@@ -12,6 +12,7 @@ export const AddNewBook = async (req,res,next) =>{
         const nady = new Nady({
             code,
             color,
+            duration
         })
         try {
             nady.save()

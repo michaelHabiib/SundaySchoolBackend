@@ -10,6 +10,11 @@ const NadySchema = new schema({
     color : {
         type : String,
         required : [true, "please Select an option"],
+    },
+    duration : {
+        type: String,
+        enum: ['june', 'july', 'august','full'],
+        required: [true, "Your Daurtion is Required"],
     }
 },{ timestamps: true })
 
