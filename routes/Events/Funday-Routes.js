@@ -8,12 +8,4 @@ FundayRoutes.get('/funday', verfiyIsAdmin, GetAllFundayRes)
 FundayRoutes.get('/funday/downloads', verfiyIsAdmin, GetAllFundayResExcel)
 
 
-
-
-
-
-
-
-
-
 export default FundayRoutes;

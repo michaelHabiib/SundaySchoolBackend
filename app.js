@@ -4,6 +4,7 @@ import userRouter from "./routes/User-Routes";
 import adminRouter from "./routes/Admin-Routes";
 import FundayRoutes from "./routes/Events/Funday-Routes"
 import attRoutes from "./routes/Events/Att-Routes";
+import NadyRoutes from "./routes/Events/Nady-Routes"
 import cors from 'cors';
 
 
@@ -26,6 +27,7 @@ app.use(express.json());
 app.use("/api/user", userRouter);
 app.use("/api/admin", adminRouter);
 app.use('/api/events', FundayRoutes)
+app.use('/api/events', NadyRoutes)
 app.use('/api/Att', attRoutes)
 mongoose
   .connect(
