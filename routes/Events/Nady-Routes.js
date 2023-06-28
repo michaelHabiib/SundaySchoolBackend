@@ -1,6 +1,6 @@
 import express from "express";
 import {AddNewBook, GetAllNadyRes} from '../../Controlles/Events/Nady-controlles'
-import { verfiyUser, Verfiychoice , verfiyIsAdmin, VerfiychoiceNady} from "../../middelwares/VerfiyAuth";
+import { verfiyUser, verfiyIsAdmin, VerfiychoiceNady} from "../../middelwares/VerfiyAuth";
 const NadyRoutes = express.Router();
 
 NadyRoutes.post('/nady', verfiyUser, VerfiychoiceNady, AddNewBook)
