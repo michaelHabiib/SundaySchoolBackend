@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import dotenv from 'dotenv'
 import User from "../Modal/User";
 import Funday from "../Modal/Events/Funday";
+import Nady from "../Modal/Events/Nady";
 dotenv.config()
 
 export function verfiyIsAdmin (req, res, next){
@@ -56,11 +57,33 @@ export async function verfiyUser (req, res, next){
 }
 const colors = ['red', 'blue', 'black', 'brown', 'Green']
 
-export async function Verfiychoice (req, res, next){
+export async function VerfiychoiceFunday (req, res, next){
 
     const color = req.body.color
     if(colors.includes(color)){
         const count = await Funday.countDocuments({ color: color })
+            if(count+1){
+                if ((count+1) > 5) {
+                    // console.log(count + 1);
+                    res.status(400).json({ message: 'this group is no more Avaliable' });
+                    return;
+                  } else if ((count + 1) <= 5) {
+                    // console.log(count + 1);
+                    next();
+                  }
+            }else{
+                console.log(count);
+                console.log('fe 7war');
+            }
+    }else{
+        res.status(404).json({message : "unvalid option "})
+    }
+}
+export async function VerfiychoiceNady (req, res, next){
+
+    const color = req.body.color
+    if(colors.includes(color)){
+        const count = await Nady.countDocuments({ color: color })
             if(count+1){
                 if ((count+1) > 5) {
                     // console.log(count + 1);
