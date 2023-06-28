@@ -52,7 +52,7 @@ export const login = async (req, res, next) => {
     if(!isPasswordCorresct){
       res.status(401).json({message : "password is not corect"})
     }else{
-      UserId = {id : existUser._id, code : existUser.code}
+      UserId = {id : existUser._id, code : existUser.code, name : existUser.name}
       const token =jwt.sign(UserId,process.env.SECRET_KEY)
       res.status(201).json({token})
     }
