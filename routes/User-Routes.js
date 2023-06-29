@@ -7,8 +7,8 @@ const userRouter = express.Router();
 
 userRouter.post("/regstir", AddNewUser);
 userRouter.post("/login", login);
-userRouter.get("/", verfiyIsAdmin, GetAllUser);
-userRouter.get("/year/:year", verfiyIsAdmin, GetUsersByYear);
-userRouter.get("/code/:code", verfiyIsAdmin, GetUserBycode)
-userRouter.get("/att/:code", verfiyIsAdmin, GatAttOfUser)
+userRouter.get("/", GetAllUser);
+userRouter.get("/year/:year", GetUsersByYear);
+userRouter.get("/code/:code", GetUserBycode)
+userRouter.get("/att/:code", GatAttOfUser)
 export default userRouter;
