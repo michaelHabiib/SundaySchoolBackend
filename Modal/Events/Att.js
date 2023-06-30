@@ -15,6 +15,10 @@ const AttSchema = new schema({
         type : String,
         required: [true, " Att Day is Required"],
         // default : new Date()
+      },
+      isChecked : {
+        type : Boolean,
+        required : [true, 'lazm']
       }
 })
 export default mongoose.model('Att', AttSchema)
