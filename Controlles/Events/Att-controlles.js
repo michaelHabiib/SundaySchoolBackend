@@ -8,17 +8,23 @@ import path from 'path';
 // const homedir = os.homedir();
 
 export const SaveAtt = async (req,res,next)=>{
-    const {code} = req.body
+    const {code,AttDate} = req.body
     const existUser = await User.findOne({code});
     if(existUser){
-        const att = new Att({
-            code
-        })
-        try {
-            await att.save()
-            return res.status(201).json({message : 'submited sucssuflly'})
-        } catch (error) {
-            console.log(error);
+        const ExistAtt = await Att.findOne({code : code, AttDate: AttDate})
+        if(ExistAtt){
+            res.status(400).json({message : 'Attendance For today is already submited for this Code'})
+        }else{
+            const att = new Att({
+                code,
+                AttDate
+            })
+            try {
+                await att.save()
+                return res.status(201).json({message : 'submited sucssuflly'})
+            } catch (error) {
+                console.log(error);
+            }
         }
     }else{
         return res.status(404).json({message : 'can\'t Find user with this code'})

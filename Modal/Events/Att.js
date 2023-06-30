@@ -11,9 +11,10 @@ const AttSchema = new schema({
         type : mongoose.Types.ObjectId,
          ref : "User"
       },
-      attDay : {
-        type : Date,
-        default : new Date()
+      AttDate : {
+        type : String,
+        required: [true, " Att Day is Required"],
+        // default : new Date()
       }
 })
 export default mongoose.model('Att', AttSchema)
