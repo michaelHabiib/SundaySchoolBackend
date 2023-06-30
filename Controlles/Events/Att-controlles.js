@@ -50,10 +50,11 @@ export const GetAttOfaDay = async (req, res, next) => {
 export const GetAttendanceOfDay = async (req, res, next) => {
     const Day = req.params.id
     try {
-        const AddendanceData = await Att.find({code : {$in : User}, AttDate : Day})
+        const users = await User.find().distinct('code');
+        // const AddendanceData = await Att.find({code : {$in : users}, AttDate : Day})
         // const todayAtt = await Att.find({AttDay : Day})
         // const downloadsDir = path.join(homedir, 'Downloads');
-        return res.status(200).json(AddendanceData)
+        return res.status(200).json(users)
     } catch (error) {
         console.log(error);
     }
