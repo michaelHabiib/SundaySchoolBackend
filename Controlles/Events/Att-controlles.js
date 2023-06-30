@@ -47,3 +47,13 @@ export const GetAttOfaDay = async (req, res, next) => {
         console.log(error);
     }
 }
+export const GetAttendanceOfDay = async (req, res, next) => {
+    const Day = req.params.id
+    try {
+        const todayAtt = await Att.find({AttDay : Day})
+        // const downloadsDir = path.join(homedir, 'Downloads');
+        return res.status(200).json(todayAtt)
+    } catch (error) {
+        console.log(error);
+    }
+}
