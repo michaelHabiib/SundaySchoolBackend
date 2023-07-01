@@ -49,7 +49,7 @@ export const SaveAtt = async (req,res,next)=>{
 //     }
 // }
 export const GetAttendanceOfDay = async (req, res, next) => {
-    const Day = req.params.id
+    const Day = req.params.day
     try {
         console.log(Day);
         const users = await User.find().distinct('code');
