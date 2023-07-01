@@ -51,12 +51,21 @@ export const SaveAtt = async (req,res,next)=>{
 export const GetAttendanceOfDay = async (req, res, next) => {
     const Day = req.params.day
     try {
-        console.log(Day);
+        // console.log(Day);
         const users = await User.find().distinct('code');
-        console.log(users);
+        // console.log(users);
         const AddendanceData = await Att.find({code : {$in : users}, AttDate : Day})
         // const todayAtt = await Att.find({AttDay : Day})
         // const downloadsDir = path.join(homedir, 'Downloads');
+        return res.status(200).json(AddendanceData)
+    } catch (error) {
+        console.log(error);
+    }
+}
+export const GetAttendanceOfDayGenrate = async (req, res, next) => {
+    const Day = req.params.day
+    try {
+        const AddendanceData = await Att.find({AttDate : Day})
         return res.status(200).json(AddendanceData)
     } catch (error) {
         console.log(error);
