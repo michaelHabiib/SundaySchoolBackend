@@ -4,6 +4,6 @@ import { verfiyIsAdmin } from "../../middelwares/VerfiyAuth";
 const attRoutes = express.Router();
 
 attRoutes.post('/', SaveAtt)
-attRoutes.post('/:day', GetAttendanceOfDay)
+attRoutes.get('/:day', GetAttendanceOfDay)
 
 export default attRoutes;
