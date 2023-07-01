@@ -1,5 +1,5 @@
 import express from "express";
-import { SaveAtt, GetAttOfaDay, GetAttendanceOfDay } from "../../Controlles/Events/Att-controlles";
+import { SaveAtt, GetAttendanceOfDay } from "../../Controlles/Events/Att-controlles";
 import { verfiyIsAdmin } from "../../middelwares/VerfiyAuth";
 const attRoutes = express.Router();
 
