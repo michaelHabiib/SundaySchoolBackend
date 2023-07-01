@@ -8,7 +8,7 @@ import path from 'path';
 // const homedir = os.homedir();
 
 export const SaveAtt = async (req,res,next)=>{
-    const {code,AttDate} = req.body
+    const {code,AttDate,isChecked} = req.body
     const existUser = await User.findOne({code});
     if(existUser){
         const ExistAtt = await Att.findOne({code : code, AttDate: AttDate})
@@ -17,7 +17,8 @@ export const SaveAtt = async (req,res,next)=>{
         }else{
             const att = new Att({
                 code,
-                AttDate
+                AttDate,
+                isChecked
             })
             try {
                 await att.save()
