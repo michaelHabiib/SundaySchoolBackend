@@ -18,7 +18,11 @@ const AttSchema = new schema({
       },
       isChecked : {
         type : Boolean,
-        required : [true, 'lazm']
+        required : [true, 'isChecked Is Required']
+      },
+      kidClass : {
+        type : String,
+        required : [true, 'Kid Class Is Required']
       }
 })
 export default mongoose.model('Att', AttSchema)

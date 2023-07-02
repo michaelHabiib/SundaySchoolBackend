@@ -8,6 +8,7 @@ dotenv.config()
 export const AddNewBook = async (req,res,next) =>{
     const {code,color} = req.body
     const existUser = await User.findOne({code});
+    // check in funday schema if  this code is in 
     if(existUser){
         const funday = new Funday({
             code,
