@@ -25,7 +25,7 @@ const userSchema = new schema(
     },
     year : {
       type: String,
-      enum: ['baby Class', 'kg1', 'kg2','prim1'],
+      enum: ['bc', 'kg1', 'kg2','prim1'],
       required: [true, "Your study Year is Required"],
     },
     bulidingNumber : {
