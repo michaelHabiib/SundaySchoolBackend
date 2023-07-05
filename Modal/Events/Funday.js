@@ -11,6 +11,10 @@ const FundaySchema = new schema({
         type : String,
         required : [true, "please Select an option"],
     },
+    isPaid : {
+        type : Boolean,
+        required : [true, 'isPaid is FRequired']
+    },
     userID : {
         type : mongoose.Schema.Types.ObjectId,
         ref : 'User'

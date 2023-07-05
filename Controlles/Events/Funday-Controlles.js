@@ -8,7 +8,7 @@ import mongoose from "mongoose";
 dotenv.config()
 
 export const AddNewBook = async (req,res,next) =>{
-    const {code,color,userID} = req.body
+    const {code,color,userID,isPaid} = req.body
     if(!ObjectId.isValid(userID)){
         return res.status(400).json({message : "unvalid User ID"})
     }
@@ -22,7 +22,8 @@ export const AddNewBook = async (req,res,next) =>{
         const funday = new Funday({
             code,
             color,
-            userID
+            userID,
+            isPaid
         })
         try {
             await funday.save()
