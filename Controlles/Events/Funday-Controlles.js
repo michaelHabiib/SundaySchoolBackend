@@ -10,6 +10,10 @@ export const AddNewBook = async (req,res,next) =>{
     const existUser = await User.findOne({code});
     // check in funday schema if  this code is in 
     if(existUser){
+        const haveReservtion = await Funday.findOne({code})
+        if(haveReservtion){
+            return res.status(400).json({message : 'this user Already have Reservtion'})
+        }
         const funday = new Funday({
             code,
             color,
