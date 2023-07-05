@@ -44,7 +44,10 @@ const userSchema = new schema(
       type: String,
       required : [true, 'Your Birthday Date is Required']
     },
-    AttDate : [{type : mongoose.Types.ObjectId, ref : "Att"}]
+    funday : [{
+      type : mongoose.Schema.Types.ObjectId,
+      ref : 'Funday'
+    }]
   },
   { timestamps: true }
 );

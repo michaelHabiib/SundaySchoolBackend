@@ -2,11 +2,16 @@ import Funday from "../../Modal/Events/Funday";
 import User from "../../Modal/User";
 import { exportFunday } from "../../Excel/excel-export";
 import dotenv from 'dotenv'
+const ObjectId = mongoose.Types.ObjectId
 import { login } from "../User-Controlles";
+import mongoose from "mongoose";
 dotenv.config()
 
 export const AddNewBook = async (req,res,next) =>{
-    const {code,color} = req.body
+    const {code,color,userID} = req.body
+    if(!ObjectId.isValid(userID)){
+        return res.status(400).json({message : "unvalid User ID"})
+    }
     const existUser = await User.findOne({code});
     // check in funday schema if  this code is in 
     if(existUser){
@@ -17,9 +22,12 @@ export const AddNewBook = async (req,res,next) =>{
         const funday = new Funday({
             code,
             color,
+            userID
         })
         try {
-            funday.save()
+            await funday.save()
+            existUser.funday.push(funday.userID)
+            await existUser.save()
             return res.status(201).json({funday, message : 'Booked Sucssuflly'})
         } catch (error) {
             // console.log(error);
@@ -30,9 +38,15 @@ export const AddNewBook = async (req,res,next) =>{
     }   
 }
 
-export const GetAllFundayRes = async (req, res, nect) =>{
+export const GetAllFundayRes = async (req, res, next) =>{
+    let user
     try {
         const data = await Funday.find()
+        for(const book of data ){
+            const userid = book.userID.toString()
+            user = await User.findById(userid)
+            book.userID = user
+        }
         res.status(200).json(data)
     } catch (error) {
         console.log(error)

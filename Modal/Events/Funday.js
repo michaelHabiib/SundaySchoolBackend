@@ -10,6 +10,10 @@ const FundaySchema = new schema({
     color : {
         type : String,
         required : [true, "please Select an option"],
+    },
+    userID : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'User'
     }
 },{ timestamps: true })
 
