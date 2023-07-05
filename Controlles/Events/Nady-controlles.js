@@ -16,7 +16,7 @@ export const AddNewBook = async (req,res,next) =>{
         })
         try {
             nady.save()
-            return res.status(201).json(nady)
+            return res.status(201).json({nady, message : 'Booked Sucssuflly'})
         } catch (error) {
             // console.log(error);
             return res.status(400).json({message : "bad Request"})

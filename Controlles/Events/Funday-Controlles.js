@@ -16,7 +16,7 @@ export const AddNewBook = async (req,res,next) =>{
         })
         try {
             funday.save()
-            return res.status(201).json(funday)
+            return res.status(201).json({funday, message : 'Booked Sucssuflly'})
         } catch (error) {
             // console.log(error);
             return res.status(400).json({message : "bad Request"})
