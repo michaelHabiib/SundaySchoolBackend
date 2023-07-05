@@ -9,6 +9,10 @@ export const AddNewBook = async (req,res,next) =>{
     const {code,color,duration} = req.body
     const existUser = await User.findOne({code});
     if(existUser){
+        const haveReservtion = await Nady.findOne({message : 'this User Already have Reservtion'})
+        if(haveReservtion){
+            return res.status(400).json({message : 'this User Already have Reservtion'})
+        }
         const nady = new Nady({
             code,
             color,
