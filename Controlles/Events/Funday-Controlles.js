@@ -38,7 +38,19 @@ export const AddNewBook = async (req,res,next) =>{
         res.status(404).json({message : 'can\'t Find user with this code'})
     }   
 }
-
+export const CashFundayRes = async (req,res,next) => {
+    const id = req.params.id
+    try {
+        await Funday.findByIdAndUpdate(id,{
+            $set :  {
+                isPaid : true
+            }
+        })
+        return res.status(201).json({message : 'updated Sucs'})
+    } catch (error) {
+        console.log(error);
+    }
+}
 export const GetAllFundayRes = async (req, res, next) =>{
     let user
     try {
