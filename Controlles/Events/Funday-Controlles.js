@@ -5,6 +5,7 @@ import dotenv from 'dotenv'
 const ObjectId = mongoose.Types.ObjectId
 import { login } from "../User-Controlles";
 import mongoose from "mongoose";
+
 dotenv.config()
 
 export const AddNewBook = async (req,res,next) =>{
@@ -40,13 +41,11 @@ export const AddNewBook = async (req,res,next) =>{
 }
 export const CashFundayRes = async (req,res,next) => {
     const id = req.params.id
+    const UserID = new ObjectId(id)
     try {
-        await Funday.findByIdAndUpdate(id,{
-            $set :  {
-                isPaid : true
-            }
-        })
-        return res.status(201).json({message : 'updated Sucs'})
+        const funday = await Funday.findById(id)
+        await Funday.updateOne({ _id: UserID }, { $set: { isPaid: !funday.isPaid } });
+        return res.status(201).json({message : 'Updated Sucs'})
     } catch (error) {
         console.log(error);
     }
