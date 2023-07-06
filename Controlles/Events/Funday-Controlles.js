@@ -99,10 +99,10 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
           for (const item of data) {
             const rowValues = [
               item.code,
-              item.name,
+              item.UserID.name,
               item.color,
-              item.payment,
-              item.time
+              item.isPaid,
+              item.createdAt
             ]
             workSheet.addRow(rowValues)
           }
