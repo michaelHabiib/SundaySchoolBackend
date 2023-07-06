@@ -96,18 +96,20 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
             item.userID = userData
         }
         workSheet.addRows(data);
-        res.setHeader(
-            "Content-Type",
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-          );
-          res.setHeader(
-            "Content-Disposition",
-            "attachment; filename=" + "funday.xlsx"
-          );
+        // res.setHeader(
+        //     "Content-Type",
+        //     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        //   );
+        //   res.setHeader(
+        //     "Content-Disposition",
+        //     "attachment; filename=" + "funday.xlsx"
+        //   );
+          response.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+          response.setHeader("Content-Disposition", "attachment; filename=" + 'funday.xlsx');
 
-          return workBook.xlsx.write(res).then(function () {
-            res.status(200).end();
-          });
+          await workBook.xlsx.write(response);
+
+          response.end();
         // await exportFunday(data,'funday.xlsx')
 
         // res.download('funday.xlsx','funday.xlsx')
