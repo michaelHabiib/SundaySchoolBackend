@@ -91,13 +91,16 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
     let userData
     try {
         const data = await Funday.find()
-        for(const item of data){
-            userid = item.userID.toString()
-            userData = await User.findById(userid)
-            item.userID = userData
-        }
-        console.log(data);
-        workSheet.addRows(data);
+        for (const item of data) {
+            workSheet.addRow({
+              code: item.code,
+              name: item.name,
+              color: item.color,
+              payment: item.payment,
+              time: item.time
+            });
+          }
+        // console.log(data);
 
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         res.setHeader("Content-Disposition", "attachment; filename=" + 'funday.xlsx');
