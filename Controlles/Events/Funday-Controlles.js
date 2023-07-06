@@ -81,48 +81,12 @@ export const GetAllFundayRes = async (req, res, next) =>{
 //     return workBook.xlsx.writeFile('funday.xlsx')
 // }
 
-// export const GetAllFundayResExcel = async (req,res,next) =>{
-//     const workBook = new Excel.Workbook()
-//     const workSheet = workBook.addWorksheet("Funday")
-//     workSheet.addRow(['code','name','color','payment','time']) 
-    
-//     let userid
-//     let userData
-//     try {
-//         const data = await Funday.find()
-//         for(const item of data){
-//             userid = item.userID.toString()
-//             userData = await User.findById(userid)
-//             item.userID = userData
-//         }
-//         workSheet.addRows(data);
-//         // res.setHeader(
-//         //     "Content-Type",
-//         //     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-//         //   );
-//         //   res.setHeader(
-//         //     "Content-Disposition",
-//         //     "attachment; filename=" + "funday.xlsx"
-//         //   );
-//         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-//         res.setHeader("Content-Disposition", "attachment; filename=" + 'funday.xlsx');
-//         res.setHeader('Content-Encoding', null); // add this line to set the content encoding to null
-        
-
-//           await workBook.xlsx.write(res);
-
-//           res.end();
-//         // await exportFunday(data,'funday.xlsx')
-
-//         // res.download('funday.xlsx','funday.xlsx')
-//         // return res.status(200).json(data)
-
-//     } catch (error) {
-//         console.log(error)
-//     }
-// }
-
 export const GetAllFundayResExcel = async (req,res,next) =>{
+    console.log('hello');
+    const workBook = new Excel.Workbook()
+    const workSheet = workBook.addWorksheet("Funday")
+    workSheet.addRow(['code','name','color','payment','time']) 
+    
     let userid
     let userData
     try {
@@ -132,18 +96,45 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
             userData = await User.findById(userid)
             item.userID = userData
         }
+        console.log(data);
+        workSheet.addRows(data);
+
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         res.setHeader("Content-Disposition", "attachment; filename=" + 'funday.xlsx');
         res.setHeader('Content-Encoding', null); // add this line to set the content encoding to null
+        
 
-        await exportFunday(data,'funday.xlsx')
-        res.download('funday.xlsx','funday.xlsx')
-        return res.status(200).json(data)
+          await workBook.xlsx.write(res);
+
+          res.end();
 
     } catch (error) {
         console.log(error)
     }
 }
+
+// export const GetAllFundayResExcel = async (req,res,next) =>{
+//     let userid
+//     let userData
+//     try {
+//         const data = await Funday.find()
+//         for(const item of data){
+//             userid = item.userID.toString()
+//             userData = await User.findById(userid)
+//             item.userID = userData
+//         }
+//         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+//         res.setHeader("Content-Disposition", "attachment; filename=" + 'funday.xlsx');
+//         res.setHeader('Content-Encoding', null); // add this line to set the content encoding to null
+
+//         await exportFunday(data,'funday.xlsx')
+//         res.download('funday.xlsx','funday.xlsx')
+//         return res.status(200).json(data)
+
+//     } catch (error) {
+//         console.log(error)
+//     }
+// }
 
 
 
