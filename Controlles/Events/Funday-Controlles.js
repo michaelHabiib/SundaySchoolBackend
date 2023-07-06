@@ -99,7 +99,7 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
           for (const item of data) {
             const rowValues = [
               item.code,
-              item.UserID.name,
+              item.userID.name,
               item.color,
               item.isPaid,
               item.createdAt
