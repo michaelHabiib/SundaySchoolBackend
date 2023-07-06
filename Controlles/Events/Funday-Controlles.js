@@ -71,13 +71,13 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
     let userid
     let userData
     try {
-        fs.stat('funday.xlsx', (err, stats) => {
-            if (err) {
-              console.log(err);
-            } else {
-              console.log(stats);
-            }
-          });
+        // fs.stat('funday.xlsx', (err, stats) => {
+        //     if (err) {
+        //       console.log(err);
+        //     } else {
+        //       console.log(stats);
+        //     }
+        //   });
         const data = await Funday.find()
         for(const item of data){
             userid = item.userID.toString()
@@ -91,7 +91,14 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
         }).catch((error)=>{
             console.log(error);
         })
-        res.download(filePath) 
+        try {
+            res.download(filePath)
+        } catch (error) {
+            console.log(error);
+        }
+        // res.download(filePath).then(()=>{
+            
+        // })
         // res.download('funday.xlsx','funday.xlsx')   
         return res.status(200).json(data)
     } catch (error) {
