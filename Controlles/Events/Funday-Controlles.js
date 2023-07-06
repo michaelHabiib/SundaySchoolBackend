@@ -106,6 +106,7 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
         //   );
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         res.setHeader("Content-Disposition", "attachment; filename=" + 'funday.xlsx');
+        res.setHeader('Content-Encoding', null); // add this line to set the content encoding to null
 
           await workBook.xlsx.write(res);
 
