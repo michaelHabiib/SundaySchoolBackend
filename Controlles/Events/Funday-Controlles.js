@@ -1,6 +1,6 @@
 import Funday from "../../Modal/Events/Funday";
 import User from "../../Modal/User";
-// import { exportFunday } from "../../Excel/excel-export";
+import { exportFunday } from "../../Excel/excel-export";
 import dotenv from 'dotenv'
 const ObjectId = mongoose.Types.ObjectId
 import { login } from "../User-Controlles";
