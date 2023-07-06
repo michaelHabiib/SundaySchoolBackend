@@ -1,6 +1,6 @@
 import Funday from "../../Modal/Events/Funday";
 import User from "../../Modal/User";
-import { exportFunday } from "../../Excel/excel-export";
+// import { exportFunday } from "../../Excel/excel-export";
 import dotenv from 'dotenv'
 const ObjectId = mongoose.Types.ObjectId
 import { login } from "../User-Controlles";
@@ -10,6 +10,7 @@ import FileSaver from "file-saver";
 import path from 'path';
 import fs from 'fs'
 import { fileURLToPath } from 'url';
+import Excel from 'exceljs'
 dotenv.config()
 
 export const AddNewBook = async (req,res,next) =>{
@@ -68,9 +69,23 @@ export const GetAllFundayRes = async (req, res, next) =>{
         console.log(error)
     }
 }
+// export function exportFunday (data, fileName){
 
+
+//     workSheet.addRow(['code','name','color','payment','time'])
+//     data.forEach(item => {
+//         // console.log(item);
+//         workSheet.addRow([item.code,item.userID.name,item.color,item.isPaid,item.createdAt])
+//     })
+
+//     return workBook.xlsx.writeFile('funday.xlsx')
+// }
 
 export const GetAllFundayResExcel = async (req,res,next) =>{
+    const workBook = new Excel.Workbook()
+    const workSheet = workBook.addWorksheet("Funday")
+    workSheet.addRow(['code','name','color','payment','time']) 
+    
     let userid
     let userData
     try {
@@ -80,6 +95,7 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
             userData = await User.findById(userid)
             item.userID = userData
         }
+        workSheet.addRows(data);
         res.setHeader(
             "Content-Type",
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -88,9 +104,14 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
             "Content-Disposition",
             "attachment; filename=" + "funday.xlsx"
           );
-        await exportFunday(data,'funday.xlsx')
-        res.download('funday.xlsx','funday.xlsx')
-        return res.status(200).json(data)
+
+          return workBook.xlsx.write(res).then(function () {
+            res.status(200).end();
+          });
+        // await exportFunday(data,'funday.xlsx')
+
+        // res.download('funday.xlsx','funday.xlsx')
+        // return res.status(200).json(data)
 
     } catch (error) {
         console.log(error)
