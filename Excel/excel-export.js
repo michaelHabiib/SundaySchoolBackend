@@ -1,4 +1,5 @@
 import Excel from 'exceljs'
+import User from '../Modal/User'
 
 export function exportAtt (data,fileName){
     const workBook = new Excel.Workbook()
@@ -16,9 +17,10 @@ export function exportFunday (data, fileName){
     const workBook = new Excel.Workbook()
     const workSheet = workBook.addWorksheet("Funday")
 
-    workSheet.addRow(['code','color','time'])
+    workSheet.addRow(['code','name','color','payment','time'])
     data.forEach(item => {
-        workSheet.addRow([item.code,item.color,item.createdAt])
+        // console.log(item);
+        workSheet.addRow([item.code,item.userID.name,item.color,item.isPaid,item.createdAt])
     })
 
     return workBook.xlsx.writeFile('funday.xlsx')

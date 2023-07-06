@@ -5,7 +5,8 @@ import dotenv from 'dotenv'
 const ObjectId = mongoose.Types.ObjectId
 import { login } from "../User-Controlles";
 import mongoose from "mongoose";
-
+import path from 'path';
+import { fileURLToPath } from 'url';
 dotenv.config()
 
 export const AddNewBook = async (req,res,next) =>{
@@ -64,15 +65,24 @@ export const GetAllFundayRes = async (req, res, next) =>{
         console.log(error)
     }
 }
+
 export const GetAllFundayResExcel = async (req,res,next) =>{
+    let userid
+    let userData
     try {
         const data = await Funday.find()
+        for(const item of data){
+            userid = item.userID.toString()
+            userData = await User.findById(userid)
+            item.userID = userData
+        }
+        // console.log(data);
         await exportFunday(data,'funday.xlsx').then(()=>{
             console.log('file Saved Sucs');
         }).catch((error)=>{
             console.log(error);
         })
-        res.download('funday.xlsx','funday.xlsx')
+        res.download('funday.xlsx','funday.xlsx')        
         return res.status(200).json(data)
     } catch (error) {
         console.log(error);
