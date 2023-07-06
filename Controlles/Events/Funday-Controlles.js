@@ -5,6 +5,8 @@ import dotenv from 'dotenv'
 const ObjectId = mongoose.Types.ObjectId
 import { login } from "../User-Controlles";
 import mongoose from "mongoose";
+import download from "download";
+import FileSaver from "file-saver";
 import path from 'path';
 import fs from 'fs'
 import { fileURLToPath } from 'url';
@@ -67,6 +69,7 @@ export const GetAllFundayRes = async (req, res, next) =>{
     }
 }
 
+
 export const GetAllFundayResExcel = async (req,res,next) =>{
     let userid
     let userData
@@ -77,58 +80,15 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
             userData = await User.findById(userid)
             item.userID = userData
         }
-        const currentPath = process.cwd();  
-        const filePath = path.join(currentPath, 'funday.xlsx'); 
-        await exportFunday(data,filePath).then(()=>{
+        await exportFunday(data,'funday.xlsx').then(()=>{
+            res.download('funday.xlsx','funday.xlsx')
+            return res.status(200).json(data)
         }).catch((error)=>{
             console.log(error);
         })
-        try {
-            // Check if the file exists
-            fs.access(filePath, fs.constants.F_OK, (err) => {
-                if (err) {
-                console.log(`${filePath} does not exist`);
-                } else {
-                console.log(`${filePath} exists`);
-                }
-            });
-        } catch (error) {
-            console.log(error);
-            return res.status(500).send('Error downloading file.');
-        }
-        res.download(filePath)
-        return res.status(200).json(data)
+
     } catch (error) {
         console.log(error);
     }
 }
-// export const GetAllFundayResExcel = async (req,res,next) =>{
-//     let userid
-//     let userData
-//     try {
-//         const data = await Funday.find()
-//         for(const item of data){
-//             userid = item.userID.toString()
-//             userData = await User.findById(userid)
-//             item.userID = userData
-//         }
-//         const currentPath = process.cwd();  
-//         const filePath = path.join(currentPath, 'funday.xlsx');  
-//         // await exportFunday(data,'funday.xlsx').then(()=>{ 
-//         await exportFunday(data,filePath).then(()=>{
-//         }).catch((error)=>{
-//             console.log(error);
-//         })
-//         try {
-//             res.download('funday.xlsx','funday.xlsx')
-//             // res.download(filePath);
-//         } catch (error) {
-//             console.log(error);
-//             return res.status(500).send('Error downloading file.');
-//         }
-//         return res.status(200).json(data)
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
 
