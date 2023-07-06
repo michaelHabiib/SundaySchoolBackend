@@ -70,63 +70,24 @@ export const GetAllFundayRes = async (req, res, next) =>{
 }
 
 
-// export const GetAllFundayResExcel = async (req,res,next) =>{
-//     let userid
-//     let userData
-//     try {
-//         const data = await Funday.find()
-//         for(const item of data){
-//             userid = item.userID.toString()
-//             userData = await User.findById(userid)
-//             item.userID = userData
-//         }
-//         await exportFunday(data,'funday.xlsx').then(()=>{
-
-  
-//         }).catch((error)=>{
-//             console.log(error);
-//         })
-//         res.download('funday.xlsx','funday.xlsx')
-//         return res.status(200).json(data)
-
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
-
-export const GetAllFundayResExcel = async (req, res, next) => {
+export const GetAllFundayResExcel = async (req,res,next) =>{
+    let userid
+    let userData
     try {
-      const data = await Funday.find().populate('userID');
-      const fileName = 'funday.xlsx';
-      await exportFunday(data, fileName);
-      const fileUrl = `${req.protocol}://${req.get('host')}/${fileName}`;
-      console.log(fileUrl);
-      const fileStream = fs.createReadStream(fileName);
-      fileStream.on('open', () => {
-        res.setHeader('Content-Disposition', 'attachment; filename="funday.xlsx"');
-        fileStream.pipe(res);
-      });
-      fileStream.on('error', (error) => {
-        console.log(error);
-        res.status(500).send('Error downloading file.');
-      });
-    } catch (error) {
-      console.log(error);
-      res.status(500).send('Error generating file.');
-    }
-  };
+        const data = await Funday.find()
+        for(const item of data){
+            userid = item.userID.toString()
+            userData = await User.findById(userid)
+            item.userID = userData
+        }
+        await exportFunday(data,'funday.xlsx')
+        res.download('funday.xlsx','funday.xlsx')
+        return res.status(200).json(data)
 
-// export const GetAllFundayResExcel = async (req, res, next) => {
-//     try {
-//       const data = await Funday.find().populate('userID');
-//       await exportFunday(data, 'funday.xlsx');
-//       const filePath = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'funday.xlsx');
-//       const fileStream = fs.createReadStream(filePath);
-//       res.setHeader('Content-Disposition', 'attachment; filename="funday.xlsx"');
-//       fileStream.pipe(res);
-//     } catch (error) {
-//       console.log(error);
-//       res.status(500).send('Error generating file.');
-//     }
-//   };
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
 
