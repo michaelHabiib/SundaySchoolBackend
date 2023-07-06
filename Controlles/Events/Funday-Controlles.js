@@ -76,13 +76,11 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
             userData = await User.findById(userid)
             item.userID = userData
         }
-        // console.log(data);
         await exportFunday(data,'funday.xlsx').then(()=>{
-            console.log('file Saved Sucs');
         }).catch((error)=>{
             console.log(error);
         })
-        res.download('funday.xlsx','funday.xlsx')        
+        res.download('funday.xlsx','funday.xlsx')  
         return res.status(200).json(data)
     } catch (error) {
         console.log(error);
