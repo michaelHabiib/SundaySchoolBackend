@@ -80,6 +80,14 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
             userData = await User.findById(userid)
             item.userID = userData
         }
+        res.setHeader(
+            "Content-Type",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          );
+          res.setHeader(
+            "Content-Disposition",
+            "attachment; filename=" + "funday.xlsx"
+          );
         await exportFunday(data,'funday.xlsx')
         res.download('funday.xlsx','funday.xlsx')
         return res.status(200).json(data)
@@ -88,6 +96,25 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
         console.log(error)
     }
 }
+
+// export const GetAllFundayResExcel = async (req,res,next) =>{
+//     let userid
+//     let userData
+//     try {
+//         const data = await Funday.find()
+//         for(const item of data){
+//             userid = item.userID.toString()
+//             userData = await User.findById(userid)
+//             item.userID = userData
+//         }
+//         await exportFunday(data,'funday.xlsx')
+//         res.download('funday.xlsx','funday.xlsx')
+//         return res.status(200).json(data)
+
+//     } catch (error) {
+//         console.log(error)
+//     }
+// }
 
 
 
