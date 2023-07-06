@@ -6,6 +6,7 @@ const ObjectId = mongoose.Types.ObjectId
 import { login } from "../User-Controlles";
 import mongoose from "mongoose";
 import path from 'path';
+import fs from 'fs'
 import { fileURLToPath } from 'url';
 dotenv.config()
 
@@ -70,6 +71,13 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
     let userid
     let userData
     try {
+        fs.stat('funday.xlsx', (err, stats) => {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log(stats);
+            }
+          });
         const data = await Funday.find()
         for(const item of data){
             userid = item.userID.toString()
@@ -90,4 +98,28 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
         console.log(error);
     }
 }
+// export const GetAllFundayResExcel = async (req,res,next) =>{
+//     let userid
+//     let userData
+//     try {
+//         const data = await Funday.find()
+//         for(const item of data){
+//             userid = item.userID.toString()
+//             userData = await User.findById(userid)
+//             item.userID = userData
+//         }
+//         const currentPath = process.cwd();  
+//         const filePath = path.join(currentPath, 'funday.xlsx');  
+//         // await exportFunday(data,'funday.xlsx').then(()=>{ 
+//         await exportFunday(data,filePath).then(()=>{
+//         }).catch((error)=>{
+//             console.log(error);
+//         })
+//         res.download(filePath) 
+//         // res.download('funday.xlsx','funday.xlsx')   
+//         return res.status(200).json(data)
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
 
