@@ -84,27 +84,19 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
             console.log(error);
         })
         try {
-                        // Check if the file exists
+            // Check if the file exists
             fs.access(filePath, fs.constants.F_OK, (err) => {
                 if (err) {
                 console.log(`${filePath} does not exist`);
                 } else {
                 console.log(`${filePath} exists`);
-                
-                // Read the contents of the file
-                // fs.readFile(filePath, (err, data) => {
-                //     if (err) {
-                //     console.log(err);
-                //     } else {
-                //     console.log(data.toString());
-                //     }
-                // });
                 }
             });
         } catch (error) {
             console.log(error);
             return res.status(500).send('Error downloading file.');
         }
+        res.download(filePath)
         return res.status(200).json(data)
     } catch (error) {
         console.log(error);
