@@ -85,12 +85,12 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
             console.log(error);
         })
         try {
-            res.download(filePath);
+            res.download('funday.xlsx','funday.xlsx')
+            // res.download(filePath);
         } catch (error) {
             console.log(error);
             return res.status(500).send('Error downloading file.');
         }
-        // res.download('funday.xlsx','funday.xlsx')   
         return res.status(200).json(data)
     } catch (error) {
         console.log(error);
