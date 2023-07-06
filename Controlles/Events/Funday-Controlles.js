@@ -92,21 +92,25 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
     try {
         const data = await Funday.find()
         for (const item of data) {
-            workSheet.addRow({
-              code: item.code,
-              name: item.name,
-              color: item.color,
-              payment: item.payment,
-              time: item.time
-            });
+            userid = item.userID.toString()
+            userData = await User.findById(userid)
+            item.userID = userData
+          }
+          for (const item of data) {
+            const rowValues = [
+              item.code,
+              item.name,
+              item.color,
+              item.payment,
+              item.time
+            ]
+            workSheet.addRow(rowValues)
           }
         // console.log(data);
 
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         res.setHeader("Content-Disposition", "attachment; filename=" + 'funday.xlsx');
         res.setHeader('Content-Encoding', null); // add this line to set the content encoding to null
-        
-
           await workBook.xlsx.write(res);
 
           res.end();
