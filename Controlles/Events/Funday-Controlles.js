@@ -83,7 +83,7 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
             console.log(error);
         })
         res.download('funday.xlsx','funday.xlsx')        
-        return res.status(200).json(data)
+        return res.status(200).json({message : 'file Downloaded Sucssufluy'})
     } catch (error) {
         console.log(error);
     }
