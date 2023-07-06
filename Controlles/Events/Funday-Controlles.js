@@ -104,12 +104,12 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
         //     "Content-Disposition",
         //     "attachment; filename=" + "funday.xlsx"
         //   );
-          response.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-          response.setHeader("Content-Disposition", "attachment; filename=" + 'funday.xlsx');
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader("Content-Disposition", "attachment; filename=" + 'funday.xlsx');
 
-          await workBook.xlsx.write(response);
+          await workBook.xlsx.write(res);
 
-          response.end();
+          res.end();
         // await exportFunday(data,'funday.xlsx')
 
         // res.download('funday.xlsx','funday.xlsx')
