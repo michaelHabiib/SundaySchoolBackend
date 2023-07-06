@@ -78,15 +78,29 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
             item.userID = userData
         }
         const currentPath = process.cwd();  
-        const filePath = path.join(currentPath, 'funday.xlsx');  
-        // await exportFunday(data,'funday.xlsx').then(()=>{ 
+        const filePath = path.join(currentPath, 'funday.xlsx'); 
         await exportFunday(data,filePath).then(()=>{
         }).catch((error)=>{
             console.log(error);
         })
         try {
-            res.download('funday.xlsx','funday.xlsx')
-            // res.download(filePath);
+                        // Check if the file exists
+            fs.access(filePath, fs.constants.F_OK, (err) => {
+                if (err) {
+                console.log(`${filePath} does not exist`);
+                } else {
+                console.log(`${filePath} exists`);
+                
+                // Read the contents of the file
+                fs.readFile(filePath, (err, data) => {
+                    if (err) {
+                    console.log(err);
+                    } else {
+                    console.log(data.toString());
+                    }
+                });
+                }
+            });
         } catch (error) {
             console.log(error);
             return res.status(500).send('Error downloading file.');
@@ -96,4 +110,33 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
         console.log(error);
     }
 }
+// export const GetAllFundayResExcel = async (req,res,next) =>{
+//     let userid
+//     let userData
+//     try {
+//         const data = await Funday.find()
+//         for(const item of data){
+//             userid = item.userID.toString()
+//             userData = await User.findById(userid)
+//             item.userID = userData
+//         }
+//         const currentPath = process.cwd();  
+//         const filePath = path.join(currentPath, 'funday.xlsx');  
+//         // await exportFunday(data,'funday.xlsx').then(()=>{ 
+//         await exportFunday(data,filePath).then(()=>{
+//         }).catch((error)=>{
+//             console.log(error);
+//         })
+//         try {
+//             res.download('funday.xlsx','funday.xlsx')
+//             // res.download(filePath);
+//         } catch (error) {
+//             console.log(error);
+//             return res.status(500).send('Error downloading file.');
+//         }
+//         return res.status(200).json(data)
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
 
