@@ -76,11 +76,15 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
             userData = await User.findById(userid)
             item.userID = userData
         }
-        await exportFunday(data,'funday.xlsx').then(()=>{
+        const currentPath = process.cwd();  //new
+        const filePath = path.join(currentPath, 'funday.xlsx');  //new
+        // await exportFunday(data,'funday.xlsx').then(()=>{ //old
+        await exportFunday(data,filePath).then(()=>{
         }).catch((error)=>{
             console.log(error);
         })
-        res.download('funday.xlsx','funday.xlsx')  
+        res.download(filePath);  //new
+        // res.download('funday.xlsx','funday.xlsx')    //old
         return res.status(200).json(data)
     } catch (error) {
         console.log(error);
