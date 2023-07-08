@@ -47,6 +47,10 @@ const userSchema = new schema(
     funday : [{
       type : mongoose.Schema.Types.ObjectId,
       ref : 'Funday'
+    }],
+    Attendance : [{
+      type : mongoose.Schema.Types.ObjectId,
+      ref : 'Att'
     }]
   },
   { timestamps: true }

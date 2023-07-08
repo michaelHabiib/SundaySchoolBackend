@@ -1,15 +1,8 @@
 import Funday from "../../Modal/Events/Funday";
 import User from "../../Modal/User";
-import { exportFunday } from "../../Excel/excel-export";
 import dotenv from 'dotenv'
 const ObjectId = mongoose.Types.ObjectId
-import { login } from "../User-Controlles";
 import mongoose from "mongoose";
-import download from "download";
-import FileSaver from "file-saver";
-import path from 'path';
-import fs from 'fs'
-import { fileURLToPath } from 'url';
 import Excel from 'exceljs'
 dotenv.config()
 
@@ -69,20 +62,8 @@ export const GetAllFundayRes = async (req, res, next) =>{
         console.log(error)
     }
 }
-// export function exportFunday (data, fileName){
-
-
-//     workSheet.addRow(['code','name','color','payment','time'])
-//     data.forEach(item => {
-//         // console.log(item);
-//         workSheet.addRow([item.code,item.userID.name,item.color,item.isPaid,item.createdAt])
-//     })
-
-//     return workBook.xlsx.writeFile('funday.xlsx')
-// }
 
 export const GetAllFundayResExcel = async (req,res,next) =>{
-    console.log('hello');
     const workBook = new Excel.Workbook()
     const workSheet = workBook.addWorksheet("Funday")
     workSheet.addRow(['code','name','color','payment','time']) 
@@ -120,28 +101,6 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
     }
 }
 
-// export const GetAllFundayResExcel = async (req,res,next) =>{
-//     let userid
-//     let userData
-//     try {
-//         const data = await Funday.find()
-//         for(const item of data){
-//             userid = item.userID.toString()
-//             userData = await User.findById(userid)
-//             item.userID = userData
-//         }
-//         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-//         res.setHeader("Content-Disposition", "attachment; filename=" + 'funday.xlsx');
-//         res.setHeader('Content-Encoding', null); // add this line to set the content encoding to null
-
-//         await exportFunday(data,'funday.xlsx')
-//         res.download('funday.xlsx','funday.xlsx')
-//         return res.status(200).json(data)
-
-//     } catch (error) {
-//         console.log(error)
-//     }
-// }
 
 
 

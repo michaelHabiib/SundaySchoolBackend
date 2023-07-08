@@ -1,25 +1,24 @@
 import User from "../../Modal/User";
 import Att from "../../Modal/Events/Att";
-import { exportAtt } from "../../Excel/excel-export";
-import os from 'os'
-import path from 'path';
+import Excel from 'exceljs'
 
-
-// const homedir = os.homedir();
 
 export const SaveAtt = async (req,res,next)=>{
-    const {code,AttDate,isChecked,kidClass} = req.body
+    const {code,AttDate,isChecked,kidClass,user} = req.body
     const existUser = await User.findOne({code});
     if(existUser){
-        const ExistAtt = await Att.findOne({code : code, AttDate: AttDate})
-        if(ExistAtt){
-            res.status(400).json({message : 'Attendance For today is already submited for this Code'})
+        const exisetAttendance = await Att.findOne({code : code, AttDate : AttDate})
+        if(exisetAttendance){
+            console.log(exisetAttendance);
+            await Att.updateOne({_id : exisetAttendance._id},{ $set : {isChecked : !exisetAttendance.isChecked }})
+            res.status(200).json({message : 'submited sucssuflly'})
         }else{
             const att = new Att({
                 code,
                 AttDate,
                 isChecked,
-                kidClass
+                kidClass,
+                user
             })
             try {
                 await att.save()
@@ -31,24 +30,32 @@ export const SaveAtt = async (req,res,next)=>{
     }else{
         return res.status(404).json({message : 'can\'t Find user with this code'})
     }
+
+
+    // if(existUser){
+    //     const ExistAtt = await Att.findOne({code : code, AttDate: AttDate})
+    //     if(ExistAtt){
+    //         res.status(400).json({message : 'Attendance For today is already submited for this Code'})
+    //     }else{
+    //         const att = new Att({
+    //             code,
+    //             AttDate,
+    //             isChecked,
+    //             kidClass,
+    //             user
+    //         })
+    //         try {
+    //             await att.save()
+    //             return res.status(201).json({message : 'submited sucssuflly'})
+    //         } catch (error) {
+    //             console.log(error);
+    //         }
+    //     }
+    // }else{
+    //     return res.status(404).json({message : 'can\'t Find user with this code'})
+    // }
 }
 
-// export const GetAttOfaDay = async (req, res, next) => {
-//     const day = req.params.id
-//     try {
-//         const students = await Att.find({attDay : {$gte : new Date(`2023-06-22T00:00:00.00z`), $lt : new Date("2023-06-23T00:00:00.00z")}})
-//         // const downloadsDir = path.join(homedir, 'Downloads');
-//         await exportAtt(students,'data.xlsx').then(()=>{
-//             console.log('excel file saved');
-//         }).catch((error)=>{
-//             console.log(error);
-//         })
-//         res.download('data.xlsx','data.xlsx')
-//         // return res.status(200).json(students)
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
 export const GetAttendanceOfDay = async (req, res, next) => {
     const Day = req.params.day
     const kidClass = req.params.kidClass
@@ -71,5 +78,17 @@ export const GetAttendanceOfDayGenrate = async (req, res, next) => {
         return res.status(200).json(AddendanceData)
     } catch (error) {
         console.log(error);
+    }
+}
+
+export const downloadAttendanceSheet =  async (req, res, next) => {
+    const date = req.params.date
+    const Workbook = new Excel.Workbook()
+    const worksheet = Workbook.addWorksheet('Attendance')
+    try {
+        const Attednace = Att.find({})
+        
+    } catch (error) {
+        
     }
 }
