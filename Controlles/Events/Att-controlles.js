@@ -4,7 +4,7 @@ import Excel from 'exceljs'
 
 
 export const SaveAtt = async (req,res,next)=>{
-    const {code,AttDate,isChecked,kidClass,user} = req.body
+    const {code,AttDate,isChecked,kidClass,userID} = req.body
     const existUser = await User.findOne({code});
     if(existUser){
         const exisetAttendance = await Att.findOne({code : code, AttDate : AttDate})
@@ -18,7 +18,7 @@ export const SaveAtt = async (req,res,next)=>{
                 AttDate,
                 isChecked,
                 kidClass,
-                user
+                userID
             })
             try {
                 await att.save()
