@@ -22,6 +22,8 @@ export const SaveAtt = async (req,res,next)=>{
             })
             try {
                 await att.save()
+                existUser.Attendance.push(att.userID)
+                await existUser.save()
                 return res.status(201).json({message : 'submited sucssuflly'})
             } catch (error) {
                 console.log(error);
