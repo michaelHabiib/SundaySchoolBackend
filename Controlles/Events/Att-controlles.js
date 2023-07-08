@@ -9,7 +9,7 @@ export const SaveAtt = async (req,res,next)=>{
     if(existUser){
         const exisetAttendance = await Att.findOne({code : code, AttDate : AttDate})
         if(exisetAttendance){
-            console.log(exisetAttendance);
+            // console.log(exisetAttendance);
             await Att.updateOne({_id : exisetAttendance._id},{ $set : {isChecked : !exisetAttendance.isChecked }})
             res.status(200).json({message : 'submited sucssuflly'})
         }else{
@@ -64,8 +64,6 @@ export const GetAttendanceOfDay = async (req, res, next) => {
         const users = await User.find().distinct('code');
         // console.log(users);
         const AddendanceData = await Att.find({code : {$in : users}, AttDate : Day, kidClass: kidClass})
-        // const todayAtt = await Att.find({AttDay : Day})
-        // const downloadsDir = path.join(homedir, 'Downloads');
         return res.status(200).json(AddendanceData)
     } catch (error) {
         console.log(error);

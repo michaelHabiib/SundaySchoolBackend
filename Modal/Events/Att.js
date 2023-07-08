@@ -7,9 +7,9 @@ const AttSchema = new schema({
         type: Number,
         required: [true, " User Code is Required"],
       },
-      user : {
-        type : mongoose.Types.ObjectId,
-         ref : "User"
+      userID : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'User'
       },
       AttDate : {
         type : String,
