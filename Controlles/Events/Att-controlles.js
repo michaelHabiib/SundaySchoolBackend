@@ -73,8 +73,9 @@ export const GetAttendanceOfDay = async (req, res, next) => {
 }
 export const GetAttendanceOfDayGenrate = async (req, res, next) => {
     const Day = req.params.day
+    const kidClass = req.params.kidClass
     try {
-        const AddendanceData = await Att.find({AttDate : Day})
+        const AddendanceData = await Att.find({AttDate : Day, kidClass : kidClass })
         return res.status(200).json(AddendanceData)
     } catch (error) {
         console.log(error);
