@@ -73,13 +73,13 @@ export const downloadAttendanceSheet =  async (req, res, next) => {
     const Workbook = new Excel.Workbook()
     const worksheet = Workbook.addWorksheet('Attendance')
     worksheet.addRow(['code','name','Day','class','Attendance']) 
-    // if(year === 'all'){
-    //     users = await User.find()
-    // }else{
-    //     users = await User.find({year : year})
-    // }
-    try {
+    if(year === 'all'){
         users = await User.find()
+    }else{
+        users = await User.find({year : year})
+    }
+    try {
+        console.log(users);
         const Attednace = await Att.find({AttDate : Day})
         users.forEach((user) =>{
             const attendanceOfUser = Attednace.find((a) => a.code === user.code)
