@@ -61,7 +61,7 @@ export const downloadAttendanceSheet =  async (req, res, next) => {
         const users = await User.find()
         const Attednace = await Att.find({AttDate : Day})
         users.forEach((user) =>{
-            const attendanceOfUser = this.Attednace.find((a) => a.code === user.code)
+            const attendanceOfUser = Attednace.find((a) => a.code === user.code)
             if(attendanceOfUser){
              if(attendanceOfUser.isChecked){
                 const rowValues = [
