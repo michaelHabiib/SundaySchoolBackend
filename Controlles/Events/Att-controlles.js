@@ -65,7 +65,7 @@ export const downloadAttendanceSheet =  async (req, res, next) => {
     let userData
     const Workbook = new Excel.Workbook()
     const worksheet = Workbook.addWorksheet('Attendance')
-    worksheet.addRow(['code','name','Day']) 
+    worksheet.addRow(['code','name','Day','Attendance']) 
     try {
         console.log(Day);
         const Attednace = await Att.find({AttDate : Day})
@@ -79,7 +79,8 @@ export const downloadAttendanceSheet =  async (req, res, next) => {
             const rowValues = [
                 item.code,
                 item.userID.name,
-                item.AttDate
+                item.AttDate,
+                item.isChecked
             ]
             worksheet.addRow(rowValues)
         }
