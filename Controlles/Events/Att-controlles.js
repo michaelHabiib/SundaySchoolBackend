@@ -32,30 +32,6 @@ export const SaveAtt = async (req,res,next)=>{
     }else{
         return res.status(404).json({message : 'can\'t Find user with this code'})
     }
-
-
-    // if(existUser){
-    //     const ExistAtt = await Att.findOne({code : code, AttDate: AttDate})
-    //     if(ExistAtt){
-    //         res.status(400).json({message : 'Attendance For today is already submited for this Code'})
-    //     }else{
-    //         const att = new Att({
-    //             code,
-    //             AttDate,
-    //             isChecked,
-    //             kidClass,
-    //             user
-    //         })
-    //         try {
-    //             await att.save()
-    //             return res.status(201).json({message : 'submited sucssuflly'})
-    //         } catch (error) {
-    //             console.log(error);
-    //         }
-    //     }
-    // }else{
-    //     return res.status(404).json({message : 'can\'t Find user with this code'})
-    // }
 }
 
 export const GetAttendanceOfDay = async (req, res, next) => {
@@ -71,25 +47,44 @@ export const GetAttendanceOfDay = async (req, res, next) => {
         console.log(error);
     }
 }
-export const GetAttendanceOfDayGenrate = async (req, res, next) => {
-    const Day = req.params.day
-    const kidClass = req.params.kidClass
-    try {
-        const AddendanceData = await Att.find({AttDate : Day, kidClass : kidClass })
-        return res.status(200).json(AddendanceData)
-    } catch (error) {
-        console.log(error);
-    }
-}
+// export const GetAttendanceOfDayGenrate = async (req, res, next) => {
+//     const Day = req.params.day
+//     const kidClass = req.params.kidClass
+//     try {
+//         const AddendanceData = await Att.find({AttDate : Day, kidClass : kidClass })
+//         return res.status(200).json(AddendanceData)
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
 
 export const downloadAttendanceSheet =  async (req, res, next) => {
-    const date = req.params.date
+    const Day = req.params.Day
+    // const year = req.params.year
+    let userID
+    let userData
     const Workbook = new Excel.Workbook()
     const worksheet = Workbook.addWorksheet('Attendance')
     try {
-        const Attednace = Att.find({})
+        console.log(Day);
+        const Attednace = await Att.find({AttDate : Day})
+        console.log(Attednace);
+        for(const item of Attednace){
+            userID = item.userID.toString()
+            userData = await User.findById(userID)
+            item.userID = userData
+            worksheet.addRow(item)
+        }
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader("Content-Disposition", "attachment; filename=" + 'Attendance.xlsx');
+        res.setHeader('Content-Encoding', null); // added this line to set the content encoding to null
+          await Workbook.xlsx.write(res);
+          res.end();
+        
+        // console.log(Attednace);
+        return res.status(201).json({Attednace})
         
     } catch (error) {
-        
+        console.log(error);
     }
 }

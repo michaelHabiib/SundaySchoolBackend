@@ -87,13 +87,11 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
             ]
             workSheet.addRow(rowValues)
           }
-        // console.log(data);
 
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         res.setHeader("Content-Disposition", "attachment; filename=" + 'funday.xlsx');
-        res.setHeader('Content-Encoding', null); // add this line to set the content encoding to null
+        res.setHeader('Content-Encoding', null); // added this line to set the content encoding to null
           await workBook.xlsx.write(res);
-
           res.end();
 
     } catch (error) {
