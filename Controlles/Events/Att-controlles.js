@@ -47,16 +47,6 @@ export const GetAttendanceOfDay = async (req, res, next) => {
         console.log(error);
     }
 }
-// export const GetAttendanceOfDayGenrate = async (req, res, next) => {
-//     const Day = req.params.day
-//     const kidClass = req.params.kidClass
-//     try {
-//         const AddendanceData = await Att.find({AttDate : Day, kidClass : kidClass })
-//         return res.status(200).json(AddendanceData)
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
 
 export const downloadAttendanceSheet =  async (req, res, next) => {
     const Day = req.params.Day
@@ -67,23 +57,54 @@ export const downloadAttendanceSheet =  async (req, res, next) => {
     const worksheet = Workbook.addWorksheet('Attendance')
     worksheet.addRow(['code','name','Day','Attendance']) 
     try {
-        console.log(Day);
+        // console.log(Day);
+        const users = await User.find()
         const Attednace = await Att.find({AttDate : Day})
-        console.log(Attednace);
-        for(const item of Attednace){
-            userID = item.userID.toString()
-            userData = await User.findById(userID)
-            item.userID = userData
-        }
-        for(const item of Attednace ){
-            const rowValues = [
-                item.code,
-                item.userID.name,
-                item.AttDate,
-                item.isChecked
-            ]
-            worksheet.addRow(rowValues)
-        }
+        users.forEach((user) =>{
+            const attendanceOfUser = this.Attednace.find((a) => a.code === user.code)
+            if(attendanceOfUser){
+             if(attendanceOfUser.isChecked){
+                const rowValues = [
+                    user.code,
+                    user.name,
+                    attendanceOfUser.AttDate,
+                    attendanceOfUser.isChecked
+                ]
+                worksheet.addRow(rowValues)
+             } else{
+                const rowValues = [
+                    user.code,
+                    user.name,
+                    attendanceOfUser.AttDate,
+                    attendanceOfUser.isChecked
+                ]
+                worksheet.addRow(rowValues)
+             }  
+            }else{
+                const rowValues = [
+                    user.code,
+                    user.name,
+                    Day,
+                    false
+                ]
+                worksheet.addRow(rowValues)
+            }
+        })
+        // console.log(Attednace);
+        // for(const item of Attednace){
+        //     userID = item.userID.toString()
+        //     userData = await User.findById(userID)
+        //     item.userID = userData
+        // }
+        // for(const item of Attednace ){
+        //     const rowValues = [
+        //         item.code,
+        //         item.userID.name,
+        //         item.AttDate,
+        //         item.isChecked
+        //     ]
+        //     worksheet.addRow(rowValues)
+        // }
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         res.setHeader("Content-Disposition", "attachment; filename=" + 'Attendance.xlsx');
         res.setHeader('Content-Encoding', null); // added this line to set the content encoding to null
