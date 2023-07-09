@@ -75,11 +75,20 @@ export const GetAllUser = async(req, res, next) =>{
 export const GetUsersByYear = async (req, res, next) => {
   const Exactyear = req.params.year
   let users
-  try {
-    users = await User.find({year : Exactyear})
-    return res.status(200).json({users})
-  } catch (error) {
-    console.log(error);
+  if(Exactyear === 'all'){
+    try {
+      users = await User.find()
+      return res.status(200).json({users})
+    } catch (error) {
+      console.log(error);
+    }
+  }else{
+    try {
+      users = await User.find({year : Exactyear})
+      return res.status(200).json({users})
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 
