@@ -37,7 +37,7 @@ export const SaveAtt = async (req,res,next)=>{
 export const GetAttendanceOfDay = async (req, res, next) => {
     const Day = req.params.day
     const kidClass = req.params.kidClass
-    console.log(kidClass);
+    // console.log(kidClass);
     if(kidClass === 'all'){
         try {
             // console.log(kidClass);
