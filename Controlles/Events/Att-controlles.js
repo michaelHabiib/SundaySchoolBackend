@@ -37,15 +37,28 @@ export const SaveAtt = async (req,res,next)=>{
 export const GetAttendanceOfDay = async (req, res, next) => {
     const Day = req.params.day
     const kidClass = req.params.kidClass
-    try {
-        // console.log(Day);
-        const users = await User.find().distinct('code');
-        // console.log(users);
-        const AddendanceData = await Att.find({code : {$in : users}, AttDate : Day, kidClass: kidClass})
-        return res.status(200).json(AddendanceData)
-    } catch (error) {
-        console.log(error);
+    if(kidClass === 'all'){
+        try {
+            // console.log(Day);
+            const users = await User.find().distinct('code');
+            // console.log(users);
+            const AddendanceData = await Att.find({code : {$in : users}, AttDate : Day})
+            return res.status(200).json(AddendanceData)
+        } catch (error) {
+            console.log(error);
+        }
+    }else{
+        try {
+            // console.log(Day);
+            const users = await User.find().distinct('code');
+            // console.log(users);
+            const AddendanceData = await Att.find({code : {$in : users}, AttDate : Day, kidClass: kidClass})
+            return res.status(200).json(AddendanceData)
+        } catch (error) {
+            console.log(error);
+        }
     }
+
 }
 
 export const downloadAttendanceSheet =  async (req, res, next) => {
