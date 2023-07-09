@@ -115,7 +115,7 @@ export const downloadAttendanceSheet =  async (req, res, next) => {
         })
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         res.setHeader("Content-Disposition", "attachment; filename=" + 'Attendance.xlsx');
-        res.setHeader('Content-Encoding', null);
+        res.setHeader('Content-Encoding', null); // added this line to set the content encoding to null
 
         // Send the Excel file to the client
         await Workbook.xlsx.write(res);
