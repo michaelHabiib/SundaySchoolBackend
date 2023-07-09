@@ -6,6 +6,6 @@ const attRoutes = express.Router();
 attRoutes.post('/', SaveAtt)
 attRoutes.get('/:day/:kidClass', GetAttendanceOfDay)
 // attRoutes.get('genrate/:day/:kidClass', GetAttendanceOfDayGenrate)
-attRoutes.get('/:Day', downloadAttendanceSheet)
+attRoutes.get('/:Day/:year', downloadAttendanceSheet)
 
 export default attRoutes;

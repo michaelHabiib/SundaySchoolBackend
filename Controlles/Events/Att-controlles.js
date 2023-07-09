@@ -65,15 +65,20 @@ export const GetAttendanceOfDay = async (req, res, next) => {
 
 export const downloadAttendanceSheet =  async (req, res, next) => {
     const Day = req.params.Day
+    const year = req.params.year
     // const year = req.params.year
     let userID
     let userData
+    let users
     const Workbook = new Excel.Workbook()
     const worksheet = Workbook.addWorksheet('Attendance')
-    worksheet.addRow(['code','name','Day','Attendance']) 
+    worksheet.addRow(['code','name','Day','class','Attendance']) 
+    if(year === 'all'){
+        users = await User.find()
+    }else{
+        users = await User.find({year : year})
+    }
     try {
-        // console.log(Day);
-        const users = await User.find()
         const Attednace = await Att.find({AttDate : Day})
         users.forEach((user) =>{
             const attendanceOfUser = Attednace.find((a) => a.code === user.code)
@@ -83,6 +88,7 @@ export const downloadAttendanceSheet =  async (req, res, next) => {
                     user.code,
                     user.name,
                     attendanceOfUser.AttDate,
+                    user.year,
                     attendanceOfUser.isChecked
                 ]
                 worksheet.addRow(rowValues)
@@ -91,6 +97,7 @@ export const downloadAttendanceSheet =  async (req, res, next) => {
                     user.code,
                     user.name,
                     attendanceOfUser.AttDate,
+                    user.year,
                     attendanceOfUser.isChecked
                 ]
                 worksheet.addRow(rowValues)
@@ -100,26 +107,12 @@ export const downloadAttendanceSheet =  async (req, res, next) => {
                     user.code,
                     user.name,
                     Day,
+                    user.year,
                     false
                 ]
                 worksheet.addRow(rowValues)
             }
         })
-        // console.log(Attednace);
-        // for(const item of Attednace){
-        //     userID = item.userID.toString()
-        //     userData = await User.findById(userID)
-        //     item.userID = userData
-        // }
-        // for(const item of Attednace ){
-        //     const rowValues = [
-        //         item.code,
-        //         item.userID.name,
-        //         item.AttDate,
-        //         item.isChecked
-        //     ]
-        //     worksheet.addRow(rowValues)
-        // }
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         res.setHeader("Content-Disposition", "attachment; filename=" + 'Attendance.xlsx');
         res.setHeader('Content-Encoding', null); // added this line to set the content encoding to null
