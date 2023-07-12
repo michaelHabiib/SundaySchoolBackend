@@ -46,7 +46,7 @@ export const login = async (req, res, next) => {
   let UserId
   const existUser = await User.findOne({email})
   if(!existUser) {
-    res.status(400).json({message : 'User Not Exist Please Register First'})
+    res.status(400).json({message : 'Unvalid Email address'})
   }else{
     const isPasswordCorresct = bcrypt.compareSync(password,existUser.password)
     if(!isPasswordCorresct){
