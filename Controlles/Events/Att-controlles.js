@@ -285,7 +285,11 @@ export const downloadAttendanceSheetInRange = async (req, res, next) => {
   
       // Remove the "Attendance" column
       const attendanceColumn = worksheet.getColumn('Attendance');
-      worksheet.spliceColumns(attendanceColumn.number, 1);
+        if (attendanceColumn) {
+        worksheet.spliceColumns(attendanceColumn.number, 1);
+        }
+    //   const attendanceColumn = worksheet.getColumn('Attendance');
+    //   worksheet.spliceColumns(attendanceColumn.number, 1);
   
       res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
       res.setHeader('Content-Disposition', 'attachment; filename=Attendance.xlsx');
