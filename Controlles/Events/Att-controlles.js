@@ -188,6 +188,60 @@ export const downloadAttendanceSheet =  async (req, res, next) => {
 //     }
 // }
 
+// export const downloadAttendanceSheetInRange = async (req, res, next) => {
+//     const startDay = moment(req.params.start);
+//     const endDay = moment(req.params.end);
+//     const year = req.params.year;
+  
+//     let users, attendance;
+//     const workbook = new Excel.Workbook();
+//     const worksheet = workbook.addWorksheet('Attendance');
+//     if(year === 'all'){
+//         users = await User.find()
+//     }else{
+//         users = await User.find({year : year})
+//     }
+//     try {
+//       attendance = await Att.find({
+//         AttDate: {
+//           $gte: startDay.toDate(),
+//           $lte: endDay.toDate()
+//         }
+//       });
+  
+//       // Create an array of all the dates between startDay and endDay
+//       const dates = [];
+//       for (let date = startDay.clone(); date.isSameOrBefore(endDay); date.add(1, 'day')) {
+//         dates.push(date.format('YYYY-MM-DD'));
+//       }
+  
+//       // Add header row with code, name, year, and attendance for each date
+//       const headerValues = ['code', 'name', 'year', ...dates, 'Attendance'];
+//       worksheet.addRow(headerValues);
+  
+//       users.forEach((user) => {
+//         const userAttendance = attendance.find((a) => a.code === user.code) || {};
+  
+//         // Add row for user with attendance for each date
+//         const rowValues = [
+//           user.code,
+//           user.name,
+//           year,
+//           ...dates.map((date) => userAttendance[date] || ''),
+//           userAttendance.isChecked || false
+//         ];
+//         worksheet.addRow(rowValues);
+//       });
+  
+//       res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+//       res.setHeader('Content-Disposition', 'attachment; filename=Attendance.xlsx');
+//       res.setHeader('Content-Encoding', null);
+//       await workbook.xlsx.write(res);
+//       res.end();
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   };
 export const downloadAttendanceSheetInRange = async (req, res, next) => {
     const startDay = moment(req.params.start);
     const endDay = moment(req.params.end);
@@ -196,12 +250,9 @@ export const downloadAttendanceSheetInRange = async (req, res, next) => {
     let users, attendance;
     const workbook = new Excel.Workbook();
     const worksheet = workbook.addWorksheet('Attendance');
-    if(year === 'all'){
-        users = await User.find()
-    }else{
-        users = await User.find({year : year})
-    }
+  
     try {
+      users = await User.find();
       attendance = await Att.find({
         AttDate: {
           $gte: startDay.toDate(),
@@ -216,7 +267,7 @@ export const downloadAttendanceSheetInRange = async (req, res, next) => {
       }
   
       // Add header row with code, name, year, and attendance for each date
-      const headerValues = ['code', 'name', 'year', ...dates, 'Attendance'];
+      const headerValues = ['code', 'name', 'year', ...dates];
       worksheet.addRow(headerValues);
   
       users.forEach((user) => {
@@ -227,11 +278,14 @@ export const downloadAttendanceSheetInRange = async (req, res, next) => {
           user.code,
           user.name,
           year,
-          ...dates.map((date) => userAttendance[date] || ''),
-          userAttendance.isChecked || false
+          ...dates.map((date) => userAttendance[date] || false)
         ];
         worksheet.addRow(rowValues);
       });
+  
+      // Remove the "Attendance" column
+      const attendanceColumn = worksheet.getColumn('Attendance');
+      worksheet.spliceColumns(attendanceColumn.number, 1);
   
       res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
       res.setHeader('Content-Disposition', 'attachment; filename=Attendance.xlsx');
@@ -241,4 +295,4 @@ export const downloadAttendanceSheetInRange = async (req, res, next) => {
     } catch (error) {
       console.log(error);
     }
-  };
+  }
