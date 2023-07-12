@@ -125,4 +125,13 @@ export const downloadAttendanceSheet =  async (req, res, next) => {
         console.log(error);
     }
 }
+export const GetAttendanceOfUser = async (req, res, next) => {
+    const code = req.params.code
+    try {
+        const attendanceOfUser = await Att.find({code : code})
+        res.status(201).json(attendanceOfUser)
+    } catch (error) {
+        console.log(error);
+    }
+}
 
