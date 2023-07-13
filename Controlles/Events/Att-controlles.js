@@ -22,7 +22,7 @@ export const SaveAtt = async (req,res,next)=>{
             })
             try {
                 await att.save()
-                existUser.Attendance.push(att.userID)
+                existUser.Attendance.push(att._id)
                 await existUser.save()
                 return res.status(201).json({message : 'submited sucssuflly'})
             } catch (error) {
@@ -127,11 +127,19 @@ export const downloadAttendanceSheet =  async (req, res, next) => {
 }
 export const GetAttendanceOfUser = async (req, res, next) => {
     const code = req.params.code
-    try {
-        const attendanceOfUser = await Att.find({code : code})
-        res.status(201).json(attendanceOfUser)
-    } catch (error) {
-        console.log(error);
+    const userCode = await User.findOne({code : code})
+    console.log(userCode);
+    if(userCode == null){
+        return res.status(404).json({message : "can't Find User with This Code"})
+    }else{
+        try {
+            const user =await  User.findById(userCode.userID)
+            console.log(user);
+            const attendanceOfUser = await Att.find({code : code})
+            return res.status(201).json(attendanceOfUser)
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 

@@ -33,7 +33,7 @@ mongoose
   .connect(
     `mongodb+srv://Michael_Ramzy:${passWord}@cluster0.ofxqht3.mongodb.net/SundaySchools?retryWrites=true&w=majority`
     )
-  .then(() => app.listen(4000))
+  .then(() => app.listen(5000))
   .then(() => {
     console.log(`Database Connected, server runing on 5000 port`);
   });
