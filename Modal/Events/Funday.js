@@ -13,7 +13,7 @@ const FundaySchema = new schema({
     },
     isPaid : {
         type : Boolean,
-        required : [true, 'isPaid is FRequired']
+        required : [true, 'isPaid is Required']
     },
     userID : {
         type : mongoose.Schema.Types.ObjectId,

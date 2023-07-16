@@ -11,6 +11,11 @@ const NadySchema = new schema({
         type : String,
         required : [true, "please Select an option"],
     },
+    isPaid : {
+        type : Boolean,
+        required : [true, 'isPaid is Required'],
+        default : false
+    },
     duration : {
         type: String,
         enum: ['june', 'july', 'august','full'],

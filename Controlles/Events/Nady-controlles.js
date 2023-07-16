@@ -9,21 +9,44 @@ export const AddNewBook = async (req,res,next) =>{
     const {code,color,duration} = req.body
     const existUser = await User.findOne({code});
     if(existUser){
-        const haveReservtion = await Nady.findOne({code,duration})
+        const haveReservtion = await Nady.findOne({code})
         if(haveReservtion){
-            return res.status(400).json({message : 'this User Already have Reservtion For This Duration'})
-        }
-        const nady = new Nady({
-            code,
-            color,
-            duration
-        })
-        try {
-            nady.save()
-            return res.status(201).json({nady, message : 'Booked Sucssuflly'})
-        } catch (error) {
-            // console.log(error);
-            return res.status(400).json({message : "bad Request"})
+            if(duration === 'full'){
+                return res.status(400).json({message : `this User Already have Reservtion For ${haveReservtion.duration} can't book the hole Summer`})
+   
+            }
+            if(haveReservtion.duration === 'full'){
+                return res.status(400).json({message : 'this User Already have Reservtion For all Summer'})
+            }
+            
+            if(haveReservtion.duration == duration ){
+                return res.status(400).json({message : 'this User Already have Reservtion For This Duration'})
+            }
+            const nady = new Nady({
+                code,
+                color,
+                duration
+            })
+            try {
+                nady.save()
+                return res.status(201).json({nady, existUser, message : 'Booked Sucssuflly'})
+            } catch (error) {
+                // console.log(error);
+                return res.status(400).json({message : "bad Request"})
+            }
+        }else{
+            const nady = new Nady({
+                code,
+                color,
+                duration
+            })
+            try {
+                nady.save()
+                return res.status(201).json({nady, existUser, message : 'Booked Sucssuflly'})
+            } catch (error) {
+                // console.log(error);
+                return res.status(400).json({message : "bad Request"})
+            }
         }
     }else{
         res.status(404).json({message : 'can\'t Find user with this code'})
@@ -36,6 +59,18 @@ export const GetAllNadyRes = async (req, res, nect) =>{
         res.status(200).json(data)
     } catch (error) {
         console.log(error)
+    }
+}
+
+export const CashNadyRes = async (req, res, next) => {
+    const duration = req.params.duration
+    const code = req.params.code
+    try {
+        const UserRes = await Nady.findOne({code, duration})
+        await Nady.updateOne({code,duration}, { $set: { isPaid: !UserRes.isPaid } });
+        return res.status(201).json({message : 'Updated Sucs'})
+    } catch (error) {
+        console.log(error);
     }
 }
 // export const GetAllFundayResExcel = async (req,res,next) =>{
