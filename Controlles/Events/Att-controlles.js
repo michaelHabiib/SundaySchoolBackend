@@ -17,7 +17,7 @@ export const SaveAtt = async (req,res,next)=>{
                 code,
                 AttDate,
                 isChecked,
-                kidClass,
+                kidClass : existUser.year,
                 userID
             })
             try {

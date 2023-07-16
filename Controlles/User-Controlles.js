@@ -131,15 +131,10 @@ export const GetAttendanceOfUser = async (req, res, next) => {
       return res.status(404).json({message : "can't Find User with This Code"})
   }else{
       try {
-        // console.log(user.Attendance);
         for(const AttendanceID of user.Attendance ){
-          console.log(AttendanceID);
           const att = AttendanceID.toString()
-          console.log(att);
           const attendance = await Att.findById(att)
-          console.log(attendance);
           if (attendance) {
-            // console.log(attendance);
             AttendanceData.push(attendance);
           } else {
             console.log(`No attendance record found for ID ${att}`);
