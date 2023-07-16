@@ -1,7 +1,7 @@
 import User from "../../Modal/User";
 import Att from "../../Modal/Events/Att";
 import Excel from 'exceljs'
-import moment from 'moment';
+
 
 export const SaveAtt = async (req,res,next)=>{
     const {code,AttDate,isChecked,kidClass,userID} = req.body
@@ -21,6 +21,7 @@ export const SaveAtt = async (req,res,next)=>{
                 userID
             })
             try {
+                console.log(att);
                 await att.save()
                 existUser.Attendance.push(att._id)
                 await existUser.save()
@@ -37,13 +38,9 @@ export const SaveAtt = async (req,res,next)=>{
 export const GetAttendanceOfDay = async (req, res, next) => {
     const Day = req.params.day
     const kidClass = req.params.kidClass
-    // console.log(kidClass);
     if(kidClass === 'all'){
         try {
-            // console.log(kidClass);
-            // console.log(Day);
             const users = await User.find().distinct('code');
-            // console.log(users);
             const AddendanceData = await Att.find({code : {$in : users}, AttDate : Day})
             return res.status(200).json(AddendanceData)
         } catch (error) {
@@ -51,9 +48,7 @@ export const GetAttendanceOfDay = async (req, res, next) => {
         }
     }else{
         try {
-            // console.log(kidClass);
             const users = await User.find({year : kidClass}).distinct('code');
-            // console.log(users);
             const AddendanceData = await Att.find({code : {$in : users}, AttDate : Day})
             return res.status(200).json(AddendanceData)
         } catch (error) {
@@ -66,7 +61,6 @@ export const GetAttendanceOfDay = async (req, res, next) => {
 export const downloadAttendanceSheet =  async (req, res, next) => {
     const Day = req.params.Day
     const year = req.params.year
-    // const year = req.params.year
     let userID
     let userData
     let users
@@ -79,7 +73,6 @@ export const downloadAttendanceSheet =  async (req, res, next) => {
         users = await User.find({year : year})
     }
     try {
-        // console.log(users);
         const Attednace = await Att.find({AttDate : Day})
         users.forEach((user) =>{
             const attendanceOfUser = Attednace.find((a) => a.code === user.code)
@@ -128,13 +121,11 @@ export const downloadAttendanceSheet =  async (req, res, next) => {
 export const GetAttendanceOfUser = async (req, res, next) => {
     const code = req.params.code
     const userCode = await User.findOne({code : code})
-    console.log(userCode);
     if(userCode == null){
         return res.status(404).json({message : "can't Find User with This Code"})
     }else{
         try {
             const user =await  User.findById(userCode.userID)
-            console.log(user);
             const attendanceOfUser = await Att.find({code : code})
             return res.status(201).json(attendanceOfUser)
         } catch (error) {
