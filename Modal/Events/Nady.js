@@ -16,6 +16,10 @@ const NadySchema = new schema({
         required : [true, 'isPaid is Required'],
         default : false
     },
+    userID : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'User'
+    },
     duration : {
         type: String,
         enum: ['june', 'july', 'august','full'],

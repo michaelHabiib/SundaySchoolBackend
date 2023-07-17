@@ -6,14 +6,14 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 export const AddNewBook = async (req,res,next) =>{
-    const {code,color,duration} = req.body
+    const {code,color,duration,userID} = req.body
     const existUser = await User.findOne({code});
+    existUser.nady
     if(existUser){
-        const haveReservtion = await Nady.findOne({code})
+        const haveReservtion = await Nady.findOne({code, duration})
         if(haveReservtion){
             if(duration === 'full'){
                 return res.status(400).json({message : `this User Already have Reservtion For ${haveReservtion.duration} can't book the hole Summer`})
-   
             }
             if(haveReservtion.duration === 'full'){
                 return res.status(400).json({message : 'this User Already have Reservtion For all Summer'})
@@ -25,26 +25,40 @@ export const AddNewBook = async (req,res,next) =>{
             const nady = new Nady({
                 code,
                 color,
-                duration
+                duration,
+                userID
             })
             try {
-                nady.save()
+                await nady.save()
+                existUser.nady.push(nady._id)
+                await existUser.save()
                 return res.status(201).json({nady, existUser, message : 'Booked Sucssuflly'})
             } catch (error) {
-                // console.log(error);
                 return res.status(400).json({message : "bad Request"})
             }
         }else{
+            if(duration === 'full'){
+                const haveReservtionFull = await Nady.findOne({code})
+                if(haveReservtionFull){
+                    return res.status(400).json({message : `can't book full Summer, you Already have Reservtion for 1 omnth or more`})
+                }
+            }
+            const haveReservtionFull = await Nady.findOne({code, duration : 'full'})
+            if(haveReservtionFull){
+                return res.status(400).json({message : 'this User Already have Reservtion For all Summer'})
+            }
             const nady = new Nady({
                 code,
                 color,
-                duration
+                duration,
+                userID
             })
             try {
-                nady.save()
+                await nady.save()
+                existUser.nady.push(nady._id)
+                await existUser.save()
                 return res.status(201).json({nady, existUser, message : 'Booked Sucssuflly'})
             } catch (error) {
-                // console.log(error);
                 return res.status(400).json({message : "bad Request"})
             }
         }
@@ -56,6 +70,10 @@ export const AddNewBook = async (req,res,next) =>{
 export const GetAllNadyRes = async (req, res, nect) =>{
     try {
         const data = await Nady.find()
+        for(const item of data){
+            const userData = await User.findById(item.userID)
+            item.userID = userData
+        }
         res.status(200).json(data)
     } catch (error) {
         console.log(error)
@@ -67,8 +85,12 @@ export const CashNadyRes = async (req, res, next) => {
     const code = req.params.code
     try {
         const UserRes = await Nady.findOne({code, duration})
-        await Nady.updateOne({code,duration}, { $set: { isPaid: !UserRes.isPaid } });
-        return res.status(201).json({message : 'Updated Sucs'})
+        if(UserRes){
+            await Nady.updateOne({code,duration}, { $set: { isPaid: !UserRes.isPaid } });
+            return res.status(201).json({message : 'Updated Sucs'})
+        }else{
+            return res.status(201).json({message : `User didn't book this duration`})
+        }
     } catch (error) {
         console.log(error);
     }
