@@ -2,6 +2,7 @@ import Nady from "../../Modal/Events/Nady";
 import User from "../../Modal/User";
 // import { exportFunday } from "../../Excel/excel-export";
 import dotenv from 'dotenv'
+import Excel from 'exceljs'
 // import { login } from "../User-Controlles";
 dotenv.config()
 
@@ -112,3 +113,39 @@ export const CashNadyRes = async (req, res, next) => {
 //         console.log(error);
 //     }
 // }
+export const GetAllNadyResExcel = async (req,res,next) =>{
+    const workBook = new Excel.Workbook()
+    const workSheet = workBook.addWorksheet("Summer Club")
+    workSheet.addRow(['code','name','color','duration', 'payment','time']) 
+    
+    let userid
+    let userData
+    try {
+        const data = await Nady.find()
+        for (const item of data) {
+            userid = item.userID.toString()
+            userData = await User.findById(userid)
+            item.userID = userData
+          }
+          for (const item of data) {
+            const rowValues = [
+              item.code,
+              item.userID.name,
+              item.color,
+              item.duration,
+              item.isPaid,
+              item.createdAt
+            ]
+            workSheet.addRow(rowValues)
+          }
+
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader("Content-Disposition", "attachment; filename=" + 'nady.xlsx');
+        res.setHeader('Content-Encoding', null); // added this line to set the content encoding to null
+          await workBook.xlsx.write(res);
+          res.end();
+
+    } catch (error) {
+        console.log(error)
+    }
+}
