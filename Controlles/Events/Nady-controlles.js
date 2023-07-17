@@ -70,16 +70,16 @@ export const AddNewBook = async (req,res,next) =>{
     }   
 }
 
-export const GetAllNadyRes = async (req, res, nect) =>{
+export const GetAllNadyRes = async (req, res, next) =>{
     try {
         const data = await Nady.find()
         for(const item of data){
             const userData = await User.findById(item.userID)
             item.userID = userData
         }
-        res.status(200).json(data)
+        return res.status(200).json(data)
     } catch (error) {
-        console.log(error)
+        return res.status(400).json({message : 'bad Request'})
     }
 }
 
