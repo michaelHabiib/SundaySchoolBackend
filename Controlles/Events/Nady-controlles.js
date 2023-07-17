@@ -8,7 +8,6 @@ dotenv.config()
 export const AddNewBook = async (req,res,next) =>{
     const {code,color,duration,userID} = req.body
     const existUser = await User.findOne({code});
-    existUser.nady
     if(existUser){
         const haveReservtion = await Nady.findOne({code, duration})
         if(haveReservtion){
@@ -29,8 +28,10 @@ export const AddNewBook = async (req,res,next) =>{
                 userID
             })
             try {
-                await nady.save()
                 existUser.nady.push(nady._id)
+                const userData = await User.findById(nady.userID)
+                nady.userID = userData
+                await nady.save()
                 await existUser.save()
                 return res.status(201).json({nady, existUser, message : 'Booked Sucssuflly'})
             } catch (error) {
@@ -54,10 +55,12 @@ export const AddNewBook = async (req,res,next) =>{
                 userID
             })
             try {
-                await nady.save()
                 existUser.nady.push(nady._id)
+                const userData = await User.findById(nady.userID)
+                nady.userID = userData
+                await nady.save()
                 await existUser.save()
-                return res.status(201).json({nady, existUser, message : 'Booked Sucssuflly'})
+                return res.status(201).json({nady, message : 'Booked Sucssuflly'})
             } catch (error) {
                 return res.status(400).json({message : "bad Request"})
             }
