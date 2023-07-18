@@ -108,21 +108,6 @@ export const GetUserBycode =  async(req, res, next) =>{
     console.log(error);
   }
 }
-// export const GatAttOfUser = async(req, res, next) => {
-//   const code = req.params.code
-//   let user
-//   try {
-//     user =  await Att.find({code : code})
-//     if(user){
-//       return res.status(200).json({user})
-
-//     }else{
-//       return res.status(404).json({message : "can't find a User with this code"})
-//     }
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
 export const GetAttendanceOfUser = async (req, res, next) => {
   const code = req.params.code
   const user = await User.findOne({code : code})

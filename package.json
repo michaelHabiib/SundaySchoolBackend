@@ -13,6 +13,7 @@
   "dependencies": {
     "bcrypt": "^5.1.0",
     "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "download": "^8.0.0",
@@ -23,6 +24,7 @@
     "moment": "^2.29.4",
     "mongoose": "^7.3.0",
     "mongoose-dateonly": "^1.0.6",
+    "nodemailer": "^6.9.3",
     "nodemon": "^2.0.22"
   }
 }
