@@ -14,7 +14,7 @@ export const sentEmail = async (req,res,next) => {
         from: 'ramzymika@gmail.com',
         to: email,
         subject: topic,
-        text: `Dear ${gender} ${firstName} ${lastName} \n We notice you Send Email to Michael Habib with this message ${message} \n Please Fell Free to contact us through \n Email Address : ramzymika@gmail.com, \n and on +201222353187`
+        text: `Dear ${gender} ${firstName} ${lastName} \nWe notice you Send Email to Michael Habib with this message ${message} \nPlease Fell Free to contact us through \nEmail Address : ramzymika@gmail.com, \nCall us on : +201222353187`
       };
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {

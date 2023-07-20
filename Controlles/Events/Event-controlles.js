@@ -1,0 +1,125 @@
+import Event from "../../Modal/Events/Event";
+import mongoose from "mongoose";
+const ObjectId = mongoose.Types.ObjectId
+export const addNewEvent = async (req, res, next) => {
+    const {eventCode,name,details,price} = req.body
+    let {avaliableDates,availableColors} = req.body
+
+    if(avaliableDates && avaliableDates.length > 0){
+        avaliableDates = avaliableDates.map(datee => ({
+            date : datee.date,
+            time : datee.time
+        }))
+    }else{ 
+        avaliableDates = []
+    }
+    if(availableColors && availableColors.length > 0){
+        availableColors = availableColors.map((colorr) =>({
+            color : colorr.color,
+            dateTime : colorr.dateTime.map((dateee) =>({
+                date :dateee.date,
+                time:dateee.time
+            }))
+        }))
+    }else{
+        availableColors = []
+    }
+
+    const newEvent = new Event({
+        eventCode,
+        name,
+        details,
+        price,
+        avaliableDates,
+        availableColors
+    })
+    try {
+        await newEvent.save()
+        return res.status(201).json({message : 'Added Sucssuflly'})
+    } catch (error) {
+        return res.status(400).json({message : "bad Request", error})
+    }
+}
+
+
+export const DeleteEvent = async (req, res, next) => {
+    let eventCode = req.params.codeEvent
+    try {
+        const existEvent = await Event.findOneAndDelete({codeEvent})
+        return res.status(201).json({message : 'Deleted Sucssuflly'})
+    } catch (error) {
+        return res.status(400).json({message : "can't Delete this Event", error})
+    }
+}
+
+export const updateEvent = async (req, res, next) => {
+    const eventCode = req.params.eventCode;
+    const { name, details, price, availableColors, avaliableDates} = req.body;
+    console.log(eventCode);
+    try {
+        const updateFields = {};
+        if (name !== undefined) {
+            updateFields.name = name;
+        }
+        if (details !== undefined) {
+            updateFields.details = details;
+        }
+        if (price !== undefined) {
+            updateFields.price = price;
+        }
+        if (avaliableDates !== undefined) {
+            const pushedData = await Event.updateOne({eventCode:eventCode},
+                {$push : {avaliableDates : avaliableDates}})
+        }
+        if (availableColors !== undefined) {
+            const pushedData1 = await Event.updateOne({eventCode:eventCode},
+                {$push : {availableColors : availableColors}})
+        }
+        const event = await Event.updateOne(
+            {eventCode:eventCode},
+            updateFields
+        );
+        console.log(event);
+        if (!event) {
+            return res.status(404).json({message : 'Event not found'});
+        }
+        return res.status(200).json({message : 'Updated Successfully'});
+    } catch (error) {
+        return res.status(400).json({message : "Bad Request", error});
+    }
+};
+export const GetAllEvents = async (req, res, next) => {
+    try {
+        const events = await Event.find()
+        return res.status(201).json(events)
+    } catch (error) {
+        return res.status(400).json({message : 'bad request'})
+    }
+}
+export const UpdateDate = async (req, res, next) => {
+    const {eventCode, date, time, avaliableDates, id, availableColors, dateTime} = req.body
+    try {
+        if (avaliableDates !== undefined) {
+            await Event.updateOne({eventCode},
+                {$pull : {avaliableDates :{date:date, time:time }}})
+        return res.status(200).json({message : 'updated Successfully'})
+        }
+        
+        if (availableColors !== undefined) {
+             await Event.updateOne({eventCode},
+                {$pull : {availableColors : {_id : id}}})
+        return res.status(200).json({message : 'updated Successfully'})
+        }
+        if (dateTime !== undefined) {
+            console.log('ss');
+            // const ObjectId = new ObjectId(id)
+            console.log(ObjectId.isValid(id));
+             await Event.findOneAndUpdate({eventCode},
+                {$pull : {"availableColors.$[].dateTime" : {_id : id }}})
+        return res.status(200).json({message : 'updated Successfully'})
+        }
+        return res.status(400).json({message : 'nothing provided to delete'})
+    } catch (error) {
+        return res.status(400).json({message : 'Bad Request', error})
+    }
+}

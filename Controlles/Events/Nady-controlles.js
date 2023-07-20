@@ -99,20 +99,6 @@ export const CashNadyRes = async (req, res, next) => {
         console.log(error);
     }
 }
-// export const GetAllFundayResExcel = async (req,res,next) =>{
-//     try {
-//         const data = await Funday.find()
-//         await exportFunday(data,'funday.xlsx').then(()=>{
-//             console.log('file Saved Sucs');
-//         }).catch((error)=>{
-//             console.log(error);
-//         })
-//         res.download('funday.xlsx','funday.xlsx')
-//         return res.status(200).json(data)
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
 export const GetAllNadyResExcel = async (req,res,next) =>{
     const workBook = new Excel.Workbook()
     const workSheet = workBook.addWorksheet("Summer Club")
