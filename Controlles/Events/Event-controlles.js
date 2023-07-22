@@ -1,6 +1,13 @@
 import Event from "../../Modal/Events/Event";
 import mongoose from "mongoose";
 const ObjectId = mongoose.Types.ObjectId
+
+function generateRandomCode() {
+    const max = 9999; // maximum number of possible combinations
+    const min = 1000; // minimum number to ensure 4 digits
+    const random = Math.floor(Math.random() * (max - min + 1) + min); // generate random number between 1000 and 9999
+    return random.toString(); // convert number to string
+  }
 export const addNewEvent = async (req, res, next) => {
     const {eventCode,name,details,price} = req.body
     let {avaliableDates,availableColors} = req.body
@@ -26,7 +33,7 @@ export const addNewEvent = async (req, res, next) => {
     }
 
     const newEvent = new Event({
-        eventCode,
+        eventCode : generateRandomCode(),
         name,
         details,
         price,
