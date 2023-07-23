@@ -9,7 +9,7 @@ function generateRandomCode() {
     return random.toString(); // convert number to string
   }
 export const addNewEvent = async (req, res, next) => {
-    const {eventCode,name,details,price} = req.body
+    const {eventCode,name,details,price,color} = req.body
     let {avaliableDates,availableColors} = req.body
 
     if(avaliableDates && avaliableDates.length > 0){
@@ -37,6 +37,7 @@ export const addNewEvent = async (req, res, next) => {
         name,
         details,
         price,
+        color,
         avaliableDates,
         availableColors
     })
