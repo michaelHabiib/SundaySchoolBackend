@@ -19,11 +19,7 @@ const EventSchema = new schema({
         type : Number,
         required : [true, 'Event price is Required']
     },
-    color : [{
-      color : {
-        type : String,
-      }
-    }],
+    color : [],
     avaliableDates : [{
         date : {
             type : String,
