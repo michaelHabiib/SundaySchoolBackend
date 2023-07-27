@@ -55,12 +55,10 @@ export async function verfiyUser (req, res, next){
         return res.status(404).json({message : "No token Provided"})
     }
 }
-const colors = ['red', 'blue', 'black', 'brown', 'Green']
+
 
 export async function VerfiychoiceFunday (req, res, next){
-
     const color = req.body.color
-    // if(colors.includes(color)){
         const count = await Funday.countDocuments({ color: color })
             if(count+1){
                 if ((count+1) > 5) {
@@ -73,16 +71,12 @@ export async function VerfiychoiceFunday (req, res, next){
                   }
             }else{
                 console.log(count);
-                console.log('fe 7war');
             }
-    // }else{
-        res.status(404).json({message : "unvalid option "})
-    // }
 }
 export async function VerfiychoiceNady (req, res, next){
 
     const color = req.body.color
-    if(colors.includes(color)){
+
         const count = await Nady.countDocuments({ color: color })
             if(count+1){
                 if ((count+1) > 5) {
@@ -95,10 +89,6 @@ export async function VerfiychoiceNady (req, res, next){
                   }
             }else{
                 console.log(count);
-                console.log('fe 7war');
             }
-    }else{
-        res.status(404).json({message : "unvalid option "})
-    }
 }
 

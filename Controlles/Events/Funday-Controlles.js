@@ -7,14 +7,14 @@ import Excel from 'exceljs'
 dotenv.config()
 
 export const AddNewBook = async (req,res,next) =>{
-    const {code,color,userID,isPaid} = req.body
+    const {code,color,userID,isPaid,eventCode,dateTime} = req.body
     if(!ObjectId.isValid(userID)){
         return res.status(400).json({message : "unvalid User ID"})
     }
     const existUser = await User.findOne({code});
     // check in funday schema if  this code is in 
     if(existUser){
-        const haveReservtion = await Funday.findOne({code})
+        const haveReservtion = await Funday.findOne({code,eventCode})
         if(haveReservtion){
             return res.status(400).json({message : 'this user Already have Reservtion'})
         }
@@ -22,7 +22,9 @@ export const AddNewBook = async (req,res,next) =>{
             code,
             color,
             userID,
-            isPaid
+            isPaid,
+            eventCode,
+            dateTime
         })
         try {
             await funday.save()
