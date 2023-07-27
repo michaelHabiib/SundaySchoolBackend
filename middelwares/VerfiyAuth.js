@@ -60,7 +60,7 @@ const colors = ['red', 'blue', 'black', 'brown', 'Green']
 export async function VerfiychoiceFunday (req, res, next){
 
     const color = req.body.color
-    if(colors.includes(color)){
+    // if(colors.includes(color)){
         const count = await Funday.countDocuments({ color: color })
             if(count+1){
                 if ((count+1) > 5) {
@@ -75,9 +75,9 @@ export async function VerfiychoiceFunday (req, res, next){
                 console.log(count);
                 console.log('fe 7war');
             }
-    }else{
+    // }else{
         res.status(404).json({message : "unvalid option "})
-    }
+    // }
 }
 export async function VerfiychoiceNady (req, res, next){
 
