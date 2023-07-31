@@ -22,11 +22,11 @@ export const AddNewBook = async (req,res,next) =>{
             })
             try {
                 existUser.nady.push(nady._id)
-                const userData = await User.findById(nady.userID)
-                nady.userID = userData
+                // const userData = await User.findById(nady.userID)
+                // nady.userID = userData
                 await nady.save()
                 await existUser.save()
-                return res.status(201).json({nady, existUser, message : 'Booked Sucssuflly'})
+                return res.status(201).json({message : 'Booked Sucssuflly'})
             } catch (error) {
                 return res.status(400).json({message : "bad Request"})
             }
