@@ -7,25 +7,17 @@ import Excel from 'exceljs'
 dotenv.config()
 
 export const AddNewBook = async (req,res,next) =>{
-    const {code,color,duration,userID} = req.body
+    const {code,geroupID,userID,eventCode} = req.body
     const existUser = await User.findOne({code});
     if(existUser){
-        const haveReservtion = await Nady.findOne({code, duration})
+        const haveReservtion = await Nady.findOne({code,eventCode})    
         if(haveReservtion){
-            if(duration === 'full'){
-                return res.status(400).json({message : `this User Already have Reservtion For ${haveReservtion.duration} can't book the hole Summer`})
-            }
-            if(haveReservtion.duration === 'full'){
-                return res.status(400).json({message : 'this User Already have Reservtion For all Summer'})
-            }
-            
-            if(haveReservtion.duration == duration ){
-                return res.status(400).json({message : 'this User Already have Reservtion For This Duration'})
-            }
+            return res.status(400).json({message : "this User Already Have Reservtion in this event "})
+        }else{
             const nady = new Nady({
                 code,
-                color,
-                duration,
+                eventCode,
+                geroupID,
                 userID
             })
             try {
@@ -35,33 +27,6 @@ export const AddNewBook = async (req,res,next) =>{
                 await nady.save()
                 await existUser.save()
                 return res.status(201).json({nady, existUser, message : 'Booked Sucssuflly'})
-            } catch (error) {
-                return res.status(400).json({message : "bad Request"})
-            }
-        }else{
-            if(duration === 'full'){
-                const haveReservtionFull = await Nady.findOne({code})
-                if(haveReservtionFull){
-                    return res.status(400).json({message : `can't book full Summer, you Already have Reservtion for 1 omnth or more`})
-                }
-            }
-            const haveReservtionFull = await Nady.findOne({code, duration : 'full'})
-            if(haveReservtionFull){
-                return res.status(400).json({message : 'this User Already have Reservtion For all Summer'})
-            }
-            const nady = new Nady({
-                code,
-                color,
-                duration,
-                userID
-            })
-            try {
-                existUser.nady.push(nady._id)
-                const userData = await User.findById(nady.userID)
-                nady.userID = userData
-                await nady.save()
-                await existUser.save()
-                return res.status(201).json({nady, message : 'Booked Sucssuflly'})
             } catch (error) {
                 return res.status(400).json({message : "bad Request"})
             }
