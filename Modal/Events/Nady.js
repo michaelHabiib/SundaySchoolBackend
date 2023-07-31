@@ -7,9 +7,13 @@ const NadySchema = new schema({
         type : String,
         required : [true, "your Code is Required"]
     },
-    color : {
+    eventCode : {
         type : String,
-        required : [true, "please Select an option"],
+        required : [true, "your Event Code is Required"]
+    },
+    geroupID : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'Event'
     },
     isPaid : {
         type : Boolean,
@@ -20,11 +24,6 @@ const NadySchema = new schema({
         type : mongoose.Schema.Types.ObjectId,
         ref : 'User'
     },
-    duration : {
-        type: String,
-        enum: ['june', 'july', 'august','full'],
-        required: [true, "Your Daurtion is Required"],
-    }
 },{ timestamps: true })
 
 

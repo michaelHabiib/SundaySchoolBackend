@@ -12,8 +12,8 @@ const FundaySchema = new schema({
         required : [true, "your Event Code is Required"]
     },
     dateTime : {
-        type : String,
-        required : [true, "your Event Date is Required"]
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'Event'
     },
     color : {
         type : String,
