@@ -131,3 +131,8 @@ export const UpdateDate = async (req, res, next) => {
         return res.status(400).json({message : 'Bad Request', error})
     }
 }
+// export const updateAvalabiltyForColors = asunc (req, res, next) => {
+//     const {avaliable } = req.body
+
+
+// }
