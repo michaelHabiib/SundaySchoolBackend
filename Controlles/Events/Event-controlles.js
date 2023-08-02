@@ -136,7 +136,7 @@ export const updateAvalabilty = async (req, res, next) => {
     const eventCode = req.params.eventCode
     try {
     const fieldID = new  mongoose.Types.ObjectId(objectID)
-    const field  = await Event.find({
+    const field  = await Event.findOne({
         "eventCode": eventCode
       },
       {
@@ -149,7 +149,7 @@ export const updateAvalabilty = async (req, res, next) => {
     console.log(field[0].colors[0].avaliable);
     const value = field[0].colors[0].avaliable
     field[0].colors[0].avaliable = !value
-    field.save()
+    await field.save()
     console.log(field[0].colors[0].avaliable);
     if (!field) {
         return res.status(404).json({ message: "Event or color not found" });
