@@ -134,8 +134,7 @@ export const UpdateDate = async (req, res, next) => {
 export const updateAvalabilty = async (req, res, next) => {
     const objectID = req.params.id
     const eventCode = req.params.eventCode
-    try {
-    const fieldID = new  mongoose.Types.ObjectId(objectID)
+    
     const field  = await Event.findOne({
         "eventCode": eventCode
       },
@@ -155,7 +154,9 @@ export const updateAvalabilty = async (req, res, next) => {
         return res.status(404).json({ message: "Event or color not found" });
     }
     return res.status(200).json({message : "Updated Successfully"})
-    } catch (error) {
-    return res.status(400).json({message : "Bad Request", error})
-    }
+    // try {
+
+    // } catch (error) {
+    // return res.status(400).json({message : "Bad Request", error})
+    // }
 }
