@@ -9,9 +9,8 @@ function generateRandomCode() {
     return random.toString(); // convert number to string
   }
 export const addNewEvent = async (req, res, next) => {
-    const {eventCode,name,details,price,color} = req.body
+    const {eventCode,name,details,price,colors} = req.body
     let {avaliableDates,availableColors} = req.body
-
     if(avaliableDates && avaliableDates.length > 0){
         avaliableDates = avaliableDates.map(datee => ({
             date : datee.date,
@@ -37,7 +36,7 @@ export const addNewEvent = async (req, res, next) => {
         name,
         details,
         price,
-        color,
+        colors,
         avaliableDates,
         availableColors
     })
@@ -131,8 +130,32 @@ export const UpdateDate = async (req, res, next) => {
         return res.status(400).json({message : 'Bad Request', error})
     }
 }
-// export const updateAvalabiltyForColors = asunc (req, res, next) => {
-//     const {avaliable } = req.body
 
-
-// }
+export const updateAvalabilty = async (req, res, next) => {
+    const objectID = req.params.id
+    const eventCode = req.params.eventCode
+    try {
+    const fieldID = new  mongoose.Types.ObjectId(objectID)
+    const field  = await Event.find({
+        "eventCode": eventCode
+      },
+      {
+        colors: {
+          "$elemMatch": {
+            "_id": objectID
+          }
+        }
+      })
+    console.log(field[0].colors[0].avaliable);
+    const value = field[0].colors[0].avaliable
+    field[0].colors[0].avaliable = !value
+    field.save()
+    console.log(field[0].colors[0].avaliable);
+    if (!field) {
+        return res.status(404).json({ message: "Event or color not found" });
+    }
+    return res.status(200).json({message : "Updated Successfully"})
+    } catch (error) {
+    return res.status(400).json({message : "Bad Request", error})
+    }
+}
