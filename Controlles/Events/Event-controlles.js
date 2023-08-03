@@ -61,9 +61,8 @@ export const DeleteEvent = async (req, res, next) => {
 
 export const updateEvent = async (req, res, next) => {
     const eventCode = req.params.eventCode;
-    const { modal} = req.body;
-    console.log(eventCode);
-    // try {
+    const modal = req.body;
+    try {
         const updateFields = {};
         if (modal.name !== undefined) {
             updateFields.name = modal.name;
@@ -94,9 +93,9 @@ export const updateEvent = async (req, res, next) => {
             return res.status(404).json({message : 'Event not found'});
         }
         return res.status(200).json({message : 'Updated Successfully'});
-    // } catch (error) {
-    //     return res.status(400).json({message : "Bad Request", error});
-    // }
+    } catch (error) {
+        return res.status(400).json({message : "Bad Request", error});
+    }
 };
 export const GetAllEvents = async (req, res, next) => {
     try {
