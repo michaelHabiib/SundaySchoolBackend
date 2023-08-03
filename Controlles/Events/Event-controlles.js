@@ -50,9 +50,9 @@ export const addNewEvent = async (req, res, next) => {
 
 
 export const DeleteEvent = async (req, res, next) => {
-    let eventCode = req.params.codeEvent
+    let eventCode = req.params.eventCode
     try {
-        const existEvent = await Event.findOneAndDelete({codeEvent})
+        const existEvent = await Event.findOneAndDelete({eventCode})
         return res.status(201).json({message : 'Deleted Sucssuflly'})
     } catch (error) {
         return res.status(400).json({message : "can't Delete this Event", error})
@@ -61,29 +61,29 @@ export const DeleteEvent = async (req, res, next) => {
 
 export const updateEvent = async (req, res, next) => {
     const eventCode = req.params.eventCode;
-    const { name, details, price, availableColors, avaliableDates, colors} = req.body;
+    const { modal} = req.body;
     console.log(eventCode);
     try {
         const updateFields = {};
-        if (name !== undefined) {
-            updateFields.name = name;
+        if (modal.name !== undefined) {
+            updateFields.name = modal.name;
         }
-        if (details !== undefined) {
-            updateFields.details = details;
+        if (modal.details !== undefined) {
+            updateFields.details =  modal.details;
         }
-        if (price !== undefined) {
-            updateFields.price = price;
+        if (modal.price !== undefined) {
+            updateFields.price = modal.price;
         }
-        if (colors !== undefined) {
-            updateFields.colors = colors;
+        if (modal.colors !== undefined) {
+            updateFields.colors = modal.colors;
         }
-        if (avaliableDates !== undefined) {
+        if (modal.avaliableDates !== undefined) {
             const pushedData = await Event.updateOne({eventCode:eventCode},
-                {$set : {avaliableDates : avaliableDates}})
+                {$set : {avaliableDates : modal.avaliableDates}})
         }
-        if (availableColors !== undefined) {
+        if (modal.availableColors !== undefined) {
             const pushedData1 = await Event.updateOne({eventCode:eventCode},
-                {$set : {availableColors : availableColors}})
+                {$set : {availableColors : modal.availableColors}})
         }
         const event = await Event.updateOne(
             {eventCode:eventCode},
@@ -134,48 +134,48 @@ export const UpdateDate = async (req, res, next) => {
     }
 }
 
-export const updateAvalabilty = async (req, res, next) => {
-    const objectID = req.params.id
-    const eventCode = req.params.eventCode
+// export const updateAvalabilty = async (req, res, next) => {
+//     const objectID = req.params.id
+//     const eventCode = req.params.eventCode
     
 
-    try {
-        const field  = await Event.findOne({
-            "eventCode": eventCode
-          },
-          {
-            colors: {
-              "$elemMatch": {
-                "_id": objectID
-              }
-            }
-          })
-        console.log(field[0].colors[0].avaliable);
-        const value = field[0].colors[0].avaliable
-        field[0].colors[0].avaliable = !value
-        await field.save()
-        console.log(field[0].colors[0].avaliable);
-        if (!field) {
-            return res.status(404).json({ message: "Event or color not found" });
-        }
-        return res.status(200).json({message : "Updated Successfully"})
-    } catch (error) {
-    return res.status(400).json({message : "Bad Request", error})
-    }
-}
-const UpdateEvent = async (req, res, next) => {
-    const {modal} = req.body
-    try {
-        const event = await Event.updateOne({eventCode : modal.evecode}, {$set :
-            {
-            name : modal.name,
-            details : modal.details,
-            price : modal.price,
-            colors : modal.colors,
-            availableColors : modal.avaliableDates
-            }})
-        return res.status(200).json({message : 'Updated Successfully', event})
-    } catch (error) {
-        return res.status(400).json({message : 'Bad Request', error})
-    }
-}
+//     try {
+//         const field  = await Event.findOne({
+//             "eventCode": eventCode
+//           },
+//           {
+//             colors: {
+//               "$elemMatch": {
+//                 "_id": objectID
+//               }
+//             }
+//           })
+//         console.log(field[0].colors[0].avaliable);
+//         const value = field[0].colors[0].avaliable
+//         field[0].colors[0].avaliable = !value
+//         await field.save()
+//         console.log(field[0].colors[0].avaliable);
+//         if (!field) {
+//             return res.status(404).json({ message: "Event or color not found" });
+//         }
+//         return res.status(200).json({message : "Updated Successfully"})
+//     } catch (error) {
+//     return res.status(400).json({message : "Bad Request", error})
+//     }
+// }
+// const UpdateEvent = async (req, res, next) => {
+//     const {modal} = req.body
+//     try {
+//         const event = await Event.updateOne({eventCode : modal.evecode}, {$set :
+//             {
+//             name : modal.name,
+//             details : modal.details,
+//             price : modal.price,
+//             colors : modal.colors,
+//             availableColors : modal.avaliableDates
+//             }})
+//         return res.status(200).json({message : 'Updated Successfully', event})
+//     } catch (error) {
+//         return res.status(400).json({message : 'Bad Request', error})
+//     }
+// }
