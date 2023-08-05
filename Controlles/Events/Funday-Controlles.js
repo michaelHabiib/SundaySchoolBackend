@@ -1,5 +1,6 @@
 import Funday from "../../Modal/Events/Funday";
 import User from "../../Modal/User";
+import Event from "../../Modal/Events/Event";
 import dotenv from 'dotenv'
 const ObjectId = mongoose.Types.ObjectId
 import mongoose from "mongoose";
@@ -69,12 +70,14 @@ export const GetAllFundayRes = async (req, res, next) =>{
 export const GetAllFundayResExcel = async (req,res,next) =>{
     const workBook = new Excel.Workbook()
     const workSheet = workBook.addWorksheet("Funday")
-    workSheet.addRow(['code','name','color','payment','time']) 
-    
+    workSheet.addRow(['funday name','code',,'name','color','payment','time']) 
+
+    const eventCode = req.params.eventCode
     let userid
     let userData
     try {
-        const data = await Funday.find()
+        const Funday = await Event.find({eventCode})
+        const data = await Funday.find({eventCode})
         for (const item of data) {
             userid = item.userID.toString()
             userData = await User.findById(userid)
@@ -82,11 +85,12 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
           }
           for (const item of data) {
             const rowValues = [
-              item.code,
-              item.userID.name,
-              item.color,
-              item.isPaid,
-              item.createdAt
+            Funday.name,
+            item.code,
+            item.userID.name,
+            item.color,
+            item.isPaid,
+            item.createdAt
             ]
             workSheet.addRow(rowValues)
           }

@@ -5,7 +5,7 @@ const FundayRoutes = express.Router();
 
 FundayRoutes.post('/funday', verfiyUser, VerfiychoiceFunday, AddNewBook)
 FundayRoutes.get('/funday/:eventCode', GetAllFundayRes)
-FundayRoutes.get('/funday/downloads', GetAllFundayResExcel)
+FundayRoutes.get('/funday/downloads/:eventCode', GetAllFundayResExcel)
 FundayRoutes.put('/funday/update/:id', CashFundayRes)
 
 export default FundayRoutes;
