@@ -88,7 +88,7 @@ export const updateEvent = async (req, res, next) => {
             {eventCode:eventCode},
             updateFields
         );
-        console.log(event);
+        // console.log(event);
         if (!event) {
             return res.status(404).json({message : 'Event not found'});
         }
@@ -133,48 +133,3 @@ export const UpdateDate = async (req, res, next) => {
     }
 }
 
-// export const updateAvalabilty = async (req, res, next) => {
-//     const objectID = req.params.id
-//     const eventCode = req.params.eventCode
-    
-
-//     try {
-//         const field  = await Event.findOne({
-//             "eventCode": eventCode
-//           },
-//           {
-//             colors: {
-//               "$elemMatch": {
-//                 "_id": objectID
-//               }
-//             }
-//           })
-//         console.log(field[0].colors[0].avaliable);
-//         const value = field[0].colors[0].avaliable
-//         field[0].colors[0].avaliable = !value
-//         await field.save()
-//         console.log(field[0].colors[0].avaliable);
-//         if (!field) {
-//             return res.status(404).json({ message: "Event or color not found" });
-//         }
-//         return res.status(200).json({message : "Updated Successfully"})
-//     } catch (error) {
-//     return res.status(400).json({message : "Bad Request", error})
-//     }
-// }
-// const UpdateEvent = async (req, res, next) => {
-//     const {modal} = req.body
-//     try {
-//         const event = await Event.updateOne({eventCode : modal.evecode}, {$set :
-//             {
-//             name : modal.name,
-//             details : modal.details,
-//             price : modal.price,
-//             colors : modal.colors,
-//             availableColors : modal.avaliableDates
-//             }})
-//         return res.status(200).json({message : 'Updated Successfully', event})
-//     } catch (error) {
-//         return res.status(400).json({message : 'Bad Request', error})
-//     }
-// }
