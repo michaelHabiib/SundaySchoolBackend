@@ -4,7 +4,7 @@ import { verfiyUser, VerfiychoiceFunday , verfiyIsAdmin} from "../../middelwares
 const FundayRoutes = express.Router();
 
 FundayRoutes.post('/funday', verfiyUser, VerfiychoiceFunday, AddNewBook)
-FundayRoutes.get('/funday', GetAllFundayRes)
+FundayRoutes.get('/funday/:eventCode', GetAllFundayRes)
 FundayRoutes.get('/funday/downloads', GetAllFundayResExcel)
 FundayRoutes.put('/funday/update/:id', CashFundayRes)
 

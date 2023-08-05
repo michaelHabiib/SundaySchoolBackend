@@ -52,8 +52,9 @@ export const CashFundayRes = async (req,res,next) => {
 }
 export const GetAllFundayRes = async (req, res, next) =>{
     let user
+    const eventCode = req.params.eventCode
     try {
-        const data = await Funday.find()
+        const data = await Funday.find({eventCode})
         for(const book of data ){
             const userid = book.userID.toString()
             user = await User.findById(userid)
