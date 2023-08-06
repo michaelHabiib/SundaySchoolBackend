@@ -5,8 +5,7 @@ const NadyRoutes = express.Router();
 
 NadyRoutes.post('/nady', verfiyUser, AddNewBook)
 NadyRoutes.get('/nady/res/:eventCode', GetAllNadyRes)
-NadyRoutes.get('/nady/:code/:eventCode', CashNadyRes)
+NadyRoutes.get('/nady/cash/:code/:eventCode', CashNadyRes)
 NadyRoutes.get('/nady/downloads/:eventCode', GetAllNadyResExcel)
-
 
 export default NadyRoutes;

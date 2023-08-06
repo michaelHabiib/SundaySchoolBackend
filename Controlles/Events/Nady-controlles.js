@@ -59,7 +59,6 @@ export const CashNadyRes = async (req, res, next) => {
     const code = req.params.code
     try {
         const UserRes = await Nady.findOne({code,eventCode})
-        console.log(UserRes);
         if(UserRes){
             await Nady.updateOne({code,eventCode}, { $set: { isPaid: !UserRes.isPaid } });
             return res.status(201).json({message : 'Updated Sucs'})
@@ -73,14 +72,14 @@ export const CashNadyRes = async (req, res, next) => {
 export const GetAllNadyResExcel = async (req,res,next) =>{
     const workBook = new Excel.Workbook()
     const workSheet = workBook.addWorksheet("Summer Club")
-    workSheet.addRow(['code','name','color', 'payment','time']) 
+    workSheet.addRow(['code','name','color','payment','time']) 
 
     const eventCode = req.params.eventCode
     let userid
     let userData
     // try {
         const data = await Nady.find({eventCode})
-        console.log(data);
+        console.log(`data : ${data}`);
         for (const item of data) {
             userid = item.userID.toString()
             userData = await User.findById(userid).select('name')
