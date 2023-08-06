@@ -99,13 +99,11 @@ export const GetAllNadyResExcel = async (req,res,next) =>{
             ]
             workSheet.addRow(rowValues)
           }
-
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         res.setHeader("Content-Disposition", "attachment; filename=" + 'Summer Club.xlsx');
         res.setHeader('Content-Encoding', null); // added this line to set the content encoding to null
           await workBook.xlsx.write(res);
           res.end();
-
     } catch (error) {
         console.log(error)
     }

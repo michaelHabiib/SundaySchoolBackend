@@ -75,7 +75,7 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
     const eventCode = req.params.eventCode
     let userid
     let userData
-    // try {
+    try {
         const funday = await Event.find({eventCode})
         const data = await Funday.find({eventCode})
         console.log(funday);
@@ -103,10 +103,9 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
         res.setHeader('Content-Encoding', null); // added this line to set the content encoding to null
           await workBook.xlsx.write(res);
           res.end();
-
-    // } catch (error) {
-    //     console.log(error)
-    // }
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 
