@@ -4,7 +4,7 @@ import { verfiyUser, verfiyIsAdmin, VerfiychoiceNady} from "../../middelwares/Ve
 const NadyRoutes = express.Router();
 
 NadyRoutes.post('/nady', verfiyUser, AddNewBook)
-NadyRoutes.get('/nady/res', GetAllNadyRes)
+NadyRoutes.get('/nady/res/:eventCode', GetAllNadyRes)
 NadyRoutes.get('/nady/:code/:duration', CashNadyRes)
 NadyRoutes.get('/nady/downloads', GetAllNadyResExcel)
 
