@@ -3,6 +3,7 @@ import User from "../../Modal/User";
 // import { exportFunday } from "../../Excel/excel-export";
 import dotenv from 'dotenv'
 import Excel from 'exceljs'
+import Event from "../../Modal/Events/Event";
 // import { login } from "../User-Controlles";
 dotenv.config()
 
@@ -41,8 +42,11 @@ export const GetAllNadyRes = async (req, res, next) =>{
     try {
         const data = await Nady.find({eventCode})
         for(const item of data){
-            const userData = await User.findById(item.userID)
+            const userData = await User.findById(item.userID).select('name')
             item.userID = userData
+            const GroupColor = await Event.findOne({ eventCode, 'availableColors._id': item.geroupID },
+            { 'availableColors.$': 1 })
+            item.geroupID = GroupColor
         }
         return res.status(200).json(data)
     } catch (error) {
