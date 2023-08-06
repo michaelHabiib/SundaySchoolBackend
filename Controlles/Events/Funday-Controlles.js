@@ -70,7 +70,7 @@ export const GetAllFundayRes = async (req, res, next) =>{
 export const GetAllFundayResExcel = async (req,res,next) =>{
     const workBook = new Excel.Workbook()
     const workSheet = workBook.addWorksheet("Funday")
-    workSheet.addRow(['funday name','code',,'name','color','payment','time']) 
+    workSheet.addRow(['funday name','code','name','color','payment','time']) 
 
     const eventCode = req.params.eventCode
     let userid
