@@ -37,8 +37,9 @@ export const AddNewBook = async (req,res,next) =>{
 }
 
 export const GetAllNadyRes = async (req, res, next) =>{
+    const eventCode = req.params.eventCode
     try {
-        const data = await Nady.find()
+        const data = await Nady.find({eventCode})
         for(const item of data){
             const userData = await User.findById(item.userID)
             item.userID = userData
