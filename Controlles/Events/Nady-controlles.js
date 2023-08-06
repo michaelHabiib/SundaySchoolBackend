@@ -72,17 +72,22 @@ export const CashNadyRes = async (req, res, next) => {
 export const GetAllNadyResExcel = async (req,res,next) =>{
     const workBook = new Excel.Workbook()
     const workSheet = workBook.addWorksheet("Summer Club")
-    workSheet.addRow(['code','name','color','duration', 'payment','time']) 
-    
+    workSheet.addRow(['code','name','color', 'payment','time']) 
+
+    const eventCode = req.params.eventCode
     let userid
     let userData
     try {
-        const data = await Nady.find()
+        const data = await Nady.find({eventCode})
         for (const item of data) {
             userid = item.userID.toString()
-            userData = await User.findById(userid)
+            userData = await User.findById(userid).select('name')
             item.userID = userData
+            const GroupColor = await Event.findOne({ eventCode, 'availableColors._id': item.geroupID },
+            { 'availableColors.$': 1 })
+            item.geroupID = GroupColor
           }
+          console.log(data);
           for (const item of data) {
             const rowValues = [
               item.code,
