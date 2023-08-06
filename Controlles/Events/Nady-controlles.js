@@ -57,7 +57,7 @@ export const GetAllNadyRes = async (req, res, next) =>{
 export const CashNadyRes = async (req, res, next) => {
     const eventCode = req.params.eventCode
     const code = req.params.code
-    // try {
+    try {
         const UserRes = await Nady.findOne({code,eventCode})
         console.log(UserRes);
         if(UserRes){
@@ -66,9 +66,9 @@ export const CashNadyRes = async (req, res, next) => {
         }else{
             return res.status(201).json({message : `User didn't book this duration`})
         }
-    // } catch (error) {
-    //     console.log(error);
-    // }
+    } catch (error) {
+        console.log(error);
+    }
 }
 export const GetAllNadyResExcel = async (req,res,next) =>{
     const workBook = new Excel.Workbook()
