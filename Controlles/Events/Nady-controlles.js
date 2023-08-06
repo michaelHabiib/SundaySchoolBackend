@@ -92,11 +92,11 @@ export const GetAllNadyResExcel = async (req,res,next) =>{
             const rowValues = [
               item.code,
               item.userID.name,
-              item.color,
-              item.duration,
+              item.geroupID.availableColors[0].color,  
               item.isPaid,
               item.createdAt
             ]
+            console.log(rowValues);
             workSheet.addRow(rowValues)
           }
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
