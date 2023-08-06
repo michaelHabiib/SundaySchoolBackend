@@ -78,8 +78,9 @@ export const GetAllNadyResExcel = async (req,res,next) =>{
     const eventCode = req.params.eventCode
     let userid
     let userData
-    try {
+    // try {
         const data = await Nady.find({eventCode})
+        console.log(data);
         for (const item of data) {
             userid = item.userID.toString()
             userData = await User.findById(userid).select('name')
@@ -105,7 +106,7 @@ export const GetAllNadyResExcel = async (req,res,next) =>{
         res.setHeader('Content-Encoding', null); // added this line to set the content encoding to null
           await workBook.xlsx.write(res);
           res.end();
-    } catch (error) {
-        console.log(error)
-    }
+    // } catch (error) {
+    //     console.log(error)
+    // }
 }
