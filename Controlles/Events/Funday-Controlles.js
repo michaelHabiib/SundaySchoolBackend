@@ -75,10 +75,10 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
     const eventCode = req.params.eventCode
     let userid
     let userData
-    try {
-        const Funday = await Event.find({eventCode})
+    // try {
+        const funday = await Event.find({eventCode})
         const data = await Funday.find({eventCode})
-        console.log(Funday);
+        console.log(funday);
         console.log(data);
         for (const item of data) {
             userid = item.userID.toString()
@@ -87,7 +87,7 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
           }
           for (const item of data) {
             const rowValues = [
-            Funday[0].name,
+            funday[0].name,
             item.code,
             item.userID.name,
             item.color,
@@ -95,7 +95,8 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
             item.createdAt
             ]
             workSheet.addRow(rowValues)
-          }console.log(rowValues);
+            console.log(rowValues);
+          }
 
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         res.setHeader("Content-Disposition", "attachment; filename=" + 'funday.xlsx');
@@ -103,9 +104,9 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
           await workBook.xlsx.write(res);
           res.end();
 
-    } catch (error) {
-        console.log(error)
-    }
+    // } catch (error) {
+    //     console.log(error)
+    // }
 }
 
 
