@@ -59,6 +59,15 @@ export const DeleteEvent = async (req, res, next) => {
     }
 }
 
+export const getEventsCount = async (req, res, next) =>{
+    let totalEvents 
+    try {
+        totalEvents =  await Event.count()
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export const updateEvent = async (req, res, next) => {
     const eventCode = req.params.eventCode;
     const modal = req.body;
@@ -88,7 +97,6 @@ export const updateEvent = async (req, res, next) => {
             {eventCode:eventCode},
             updateFields
         );
-        // console.log(event);
         if (!event) {
             return res.status(404).json({message : 'Event not found'});
         }
@@ -120,9 +128,8 @@ export const UpdateDate = async (req, res, next) => {
         return res.status(200).json({message : 'updated Successfully'})
         }
         if (dateTime !== undefined) {
-            console.log('ss');
-            // const ObjectId = new ObjectId(id)
-            console.log(ObjectId.isValid(id));
+
+
              await Event.findOneAndUpdate({eventCode},
                 {$pull : {"availableColors.$[].dateTime" : {_id : id }}})
         return res.status(200).json({message : 'updated Successfully'})

@@ -71,6 +71,33 @@ export const GetAllUser = async(req, res, next) =>{
   }
   return res.status(200).json({users})
 }
+export const GetUserCount = async(req, res, next) =>{
+  let totalUsers
+  try {
+    totalUsers = await User.count()
+  } catch (error) {
+    console.log(error);
+  }
+  if(!totalUsers){
+    return res.status(400).json({message : 'No Users found'})
+  }
+  return res.status(200).json({totalUsers})
+}
+export const countUserInEachClass = async(req, res, next) =>{
+  let BcUsers
+  let kg1Users
+  let Kg2Users
+  let Prim1Users
+  try {
+    BcUsers = await User.count({year : 'bc'})
+    kg1Users = await User.count({year : 'kg1'})
+    Kg2Users = await User.count({year : 'kg2'})
+    Prim1Users = await User.count({year : 'prim1'})
+    return res.status(200).json({bc : BcUsers, kg1 : kg1Users, kg2 : Kg2Users, prim1 : Prim1Users})
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 export const GetUsersByYear = async (req, res, next) => {
   const Exactyear = req.params.year
@@ -129,6 +156,39 @@ export const GetAttendanceOfUser = async (req, res, next) => {
       } catch (error) {
           console.log(error);
       }
+  }
+}
+const FormatBirthday = function formatDate(date) {
+  if (!(date instanceof Date)) {
+    date = new Date(date); // Assuming the date parameter is a string representation of a date
+  }
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  // const year = date.getFullYear().toString();
+  return `${month}-${day}`;
+}
+
+export const getBirthdaysOfToday =  async (req, res, next) =>{
+  let user
+  let today 
+  let BirhdayToday = []
+  try {
+    const users = await User.find()
+    for(let i = 0; i < users.length; i++){
+      user = FormatBirthday(users[i].BirthdayDate) 
+      today = FormatBirthday(new Date('1997-05-04T21:00:00.000Z'))
+      console.log(today);
+      console.log(user);
+      if(user == today ){
+        BirhdayToday.push(users[i])
+      }
+    }
+    if(BirhdayToday.length == 0){
+      return res.status(200).json({message : 'No Birthdays For Today'})
+    }
+    return res.status(200).json(BirhdayToday)
+  } catch (error) {
+    console.log(error);
   }
 }
 

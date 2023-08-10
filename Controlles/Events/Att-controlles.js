@@ -61,8 +61,7 @@ export const GetAttendanceOfDay = async (req, res, next) => {
 export const downloadAttendanceSheet =  async (req, res, next) => {
     const Day = req.params.Day
     const year = req.params.year
-    console.log(Day);
-    console.log(year);
+
     let userID
     let userData
     let users
@@ -88,7 +87,7 @@ export const downloadAttendanceSheet =  async (req, res, next) => {
                     attendanceOfUser.isChecked
                 ]
                 worksheet.addRow(rowValues)
-                console.log(rowValues);
+
              } else{
                 const rowValues = [
                     user.code,
@@ -98,7 +97,6 @@ export const downloadAttendanceSheet =  async (req, res, next) => {
                     attendanceOfUser.isChecked
                 ]
                 worksheet.addRow(rowValues)
-                console.log(rowValues);
              }  
             }else{
                 const rowValues = [
@@ -109,10 +107,8 @@ export const downloadAttendanceSheet =  async (req, res, next) => {
                     false
                 ]
                 worksheet.addRow(rowValues)
-                console.log(rowValues);
             }
         })
-        console.log(worksheet);
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         res.setHeader("Content-Disposition", "attachment; filename=" + 'Attendance.xlsx');
         res.setHeader('Content-Encoding', null); // added this line to set the content encoding to null

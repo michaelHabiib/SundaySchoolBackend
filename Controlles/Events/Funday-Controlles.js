@@ -13,7 +13,6 @@ export const AddNewBook = async (req,res,next) =>{
         return res.status(400).json({message : "unvalid User ID"})
     }
     const existUser = await User.findOne({code});
-    // check in funday schema if  this code is in 
     if(existUser){
         const haveReservtion = await Funday.findOne({code,eventCode})
         if(haveReservtion){
@@ -66,7 +65,6 @@ export const GetAllFundayRes = async (req, res, next) =>{
         console.log(error)
     }
 }
-
 export const GetAllFundayResExcel = async (req,res,next) =>{
     const workBook = new Excel.Workbook()
     const workSheet = workBook.addWorksheet("Funday")
@@ -105,6 +103,54 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
           res.end();
     } catch (error) {
         console.log(error)
+    }
+}
+
+export const getFundayCount =  async (req, res, next) => {
+    let fundayCount 
+    let total = []
+    try {
+        const fundayCount = await Event.find({
+            $expr: {
+              $ne: [{ $size: "$colors" }, 0]
+            }
+          });
+          for(let i = 0; i< fundayCount.length; i++){
+            const eventCode = fundayCount[i].eventCode
+            const fundayReservtion = await Funday.find({eventCode})
+            total.push({name : fundayCount[i].name, count : fundayReservtion.length})
+          }
+          
+        return res.status(200).json({total})
+    } catch (error) {
+        console.log(error);
+    }
+}
+export const getCashForFundays =  async (req, res, next) => {
+    let fundayCount 
+    let total = []
+
+    try {
+        const fundayCount = await Event.find({
+            $expr: {
+              $ne: [{ $size: "$colors" }, 0]
+            }
+          });
+          for(let i = 0; i< fundayCount.length; i++){
+            let totalCash = 0
+            const eventCode = fundayCount[i].eventCode
+            const fundayReservtion = await Funday.find({eventCode})
+            fundayReservtion.forEach((reservtion) => {
+                    if(reservtion.isPaid){
+                        totalCash = totalCash + fundayCount[i].price
+                    }
+                })
+                total.push({name : fundayCount[i].name, totalCash : totalCash})
+          }
+          
+        return res.status(200).json(total)
+    } catch (error) {
+        console.log(error);
     }
 }
 

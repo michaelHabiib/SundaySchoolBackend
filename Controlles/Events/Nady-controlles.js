@@ -53,6 +53,26 @@ export const GetAllNadyRes = async (req, res, next) =>{
         return res.status(400).json({message : 'bad Request'})
     }
 }
+export const getNadyCount =  async (req, res, next) => {
+    let NadyCount 
+    let total = []
+    try {
+        const NadyCount = await Event.find({
+            $expr: {
+              $eq: [{ $size: "$colors" }, 0]
+            }
+          });
+          for(let i = 0; i< NadyCount.length; i++){
+            const eventCode = NadyCount[i].eventCode
+            const nadYReservtion = await Nady.find({eventCode})
+            total.push({name : NadyCount[i].name, count : nadYReservtion.length})
+          }
+          
+        return res.status(200).json(total)
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 export const CashNadyRes = async (req, res, next) => {
     const eventCode = req.params.eventCode
