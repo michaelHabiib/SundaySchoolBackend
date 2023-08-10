@@ -93,7 +93,7 @@ export const countUserInEachClass = async(req, res, next) =>{
     kg1Users = await User.count({year : 'kg1'})
     Kg2Users = await User.count({year : 'kg2'})
     Prim1Users = await User.count({year : 'prim1'})
-    return res.status(200).json({bc : BcUsers, kg1 : kg1Users, kg2 : Kg2Users, prim1 : Prim1Users})
+    return res.status(200).json([{bc : BcUsers}, {kg1 : kg1Users}, {kg2 : Kg2Users}, {prim1 : Prim1Users}])
   } catch (error) {
     console.log(error);
   }
@@ -167,7 +167,6 @@ const FormatBirthday = function formatDate(date) {
   // const year = date.getFullYear().toString();
   return `${month}-${day}`;
 }
-
 export const getBirthdaysOfToday =  async (req, res, next) =>{
   let user
   let today 
