@@ -93,7 +93,7 @@ export const countUserInEachClass = async(req, res, next) =>{
     kg1Users = await User.count({year : 'kg1'})
     Kg2Users = await User.count({year : 'kg2'})
     Prim1Users = await User.count({year : 'prim1'})
-    return res.status(200).json([{bc : BcUsers}, {kg1 : kg1Users}, {kg2 : Kg2Users}, {prim1 : Prim1Users}])
+    return res.status(200).json([{count : BcUsers, className : 'Baby Class'}, {count : kg1Users, className : 'Kg1'}, {count : Kg2Users,className : 'Kg2'}, {count : Prim1Users, className : 'Prim 1'}])
   } catch (error) {
     console.log(error);
   }
