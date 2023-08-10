@@ -89,6 +89,33 @@ export const CashNadyRes = async (req, res, next) => {
         console.log(error);
     }
 }
+export const getCashForNady =  async (req, res, next) => {
+    let nadyCount 
+    let total = []
+
+    try {
+        const nadyCount = await Event.find({
+            $expr: {
+              $eq: [{ $size: "$colors" }, 0]
+            }
+          });
+          for(let i = 0; i< nadyCount.length; i++){
+            let totalCash = 0
+            const eventCode = nadyCount[i].eventCode
+            const nadyReservtion = await Nady.find({eventCode})
+            nadyReservtion.forEach((reservtion) => {
+                    if(reservtion.isPaid){
+                        totalCash = totalCash + nadyCount[i].price
+                    }
+                })
+                total.push({name : nadyCount[i].name, totalCash : totalCash})
+          }
+          
+        return res.status(200).json(total)
+    } catch (error) {
+        console.log(error);
+    }
+}
 export const GetAllNadyResExcel = async (req,res,next) =>{
     const workBook = new Excel.Workbook()
     const workSheet = workBook.addWorksheet("Summer Club")
