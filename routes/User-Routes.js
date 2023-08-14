@@ -16,6 +16,6 @@ userRouter.get("/count/birthday", getBirthdaysOfToday);
 userRouter.get("/year/:year", GetUsersByYear);
 userRouter.get("/code/:code", GetUserBycode)
 userRouter.get("/att/:code", GetAttendanceOfUser)
-userRouter.get("/delete/:code", DeleteUser)
+userRouter.delete("/delete/:code", DeleteUser)
 export default userRouter;
     
