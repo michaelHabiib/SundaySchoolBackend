@@ -190,5 +190,20 @@ export const getBirthdaysOfToday =  async (req, res, next) =>{
     console.log(error);
   }
 }
+export const DeleteUser =  async (req, res, next) => {
+  const code = req.params.code
+  try {
+    const user = await User.find({code})
+    if(user){
+      const DeletedUser = await User.deleteOne({code: code})
+      return res.status(200).json({message : 'Deleted Sucssfully', DeletedUser})
+    }else{
+      return res.status(404).json({message : "Can't Find User To Delete"})
+    }
+    
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 
