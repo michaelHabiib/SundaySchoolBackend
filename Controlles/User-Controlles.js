@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import User from "../Modal/User";
 import Att from "../Modal/Events/Att";
+import Funday from "../Modal/Events/Funday";
+import Nady from "../Modal/Events/Nady";
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -196,6 +198,9 @@ export const DeleteUser =  async (req, res, next) => {
     const user = await User.find({code})
     if(user){
       const DeletedUser = await User.deleteOne({code: code})
+      const Deletedfunday = await Att.deleteMany({code : code})
+      await Funday.deleteMany({code : code})
+      await Nady.deleteMany({code : code})
       return res.status(200).json({message : 'Deleted Sucssfully', DeletedUser})
     }else{
       return res.status(404).json({message : "Can't Find User To Delete"})
