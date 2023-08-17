@@ -210,5 +210,32 @@ export const DeleteUser =  async (req, res, next) => {
     console.log(error);
   }
 }
+export const UpdateUser = async (req, res, next) => {
+  const { code, name, email, phone, year, bulidingNumber, street, Area, BirthdayDate } = req.body;
+
+  try {
+    const user = await User.findOne({ code });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Update user properties
+    user.name = name;
+    user.phone = phone;
+    user.year = year;
+    user.bulidingNumber = bulidingNumber;
+    user.street = street;
+    user.Area = Area;
+    user.BirthdayDate = BirthdayDate;
+
+    await user.save();
+
+    return res.status(200).json({ message: 'User updated successfully' });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
 
 
