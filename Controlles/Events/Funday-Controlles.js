@@ -27,6 +27,7 @@ export const AddNewBook = async (req,res,next) =>{
             eventCode,
             dateTime
         })
+        console.log(funday);
         try {
             await funday.save()
             existUser.funday.push(funday.userID)
