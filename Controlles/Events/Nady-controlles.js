@@ -130,7 +130,7 @@ export const GetAllNadyResExcel = async (req,res,next) =>{
             userid = item.userID.toString()
             userData = await User.findById(userid).select('name')
             console.log(userData);
-            if(userData.length){
+            if(userData){
                 item.userID = {}
             }else{
                 item.userID = userData
