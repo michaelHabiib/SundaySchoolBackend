@@ -141,7 +141,7 @@ export const GetAttendanceOfUser = async (req, res, next) => {
   const code = req.params.code
   const user = await User.findOne({code : code})
   let AttendanceData = []
-  if(user == null){
+  if(!user){
       return res.status(404).json({message : "can't Find User with This Code"})
   }else{
       try {
