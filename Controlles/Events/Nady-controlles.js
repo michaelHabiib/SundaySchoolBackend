@@ -142,7 +142,7 @@ export const GetAllNadyResExcel = async (req,res,next) =>{
           for (const item of data) {
             const rowValues = [
               item.code,
-              item.userID.name,
+              item.userID ? item.userID.name : null,
               item.geroupID.availableColors[0].color,  
               item.isPaid,
               item.createdAt
