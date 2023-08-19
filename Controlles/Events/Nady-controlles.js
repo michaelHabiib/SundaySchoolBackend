@@ -131,10 +131,9 @@ export const GetAllNadyResExcel = async (req,res,next) =>{
             userData = await User.findById(userid).select('name')
             console.log(userData);
             if(userData){
-                item.userID.name = 'Old User'
                 item.userID = userData
             }else{
-                item.userID.name = 'Old User'
+                item.userID = {name : 'Old User'}
             }
             const GroupColor = await Event.findOne({ eventCode, 'availableColors._id': item.geroupID },
             { 'availableColors.$': 1 })
