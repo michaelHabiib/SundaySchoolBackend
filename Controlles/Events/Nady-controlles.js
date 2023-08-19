@@ -8,7 +8,7 @@ import Event from "../../Modal/Events/Event";
 dotenv.config()
 
 export const AddNewBook = async (req,res,next) =>{
-    const {code,geroupID,userID,eventCode} = req.body
+    const {code,name,geroupID,userID,eventCode} = req.body
     const existUser = await User.findOne({code});
     if(existUser){
         const haveReservtion = await Nady.findOne({code,eventCode})    
@@ -17,6 +17,7 @@ export const AddNewBook = async (req,res,next) =>{
         }else{
             const nady = new Nady({
                 code,
+                name,
                 eventCode,
                 geroupID,
                 userID

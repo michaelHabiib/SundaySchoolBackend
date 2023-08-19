@@ -7,6 +7,10 @@ const NadySchema = new schema({
         type : String,
         required : [true, "your Code is Required"]
     },
+    name : {
+        type : String,
+        required : [true, "your name is Required"]
+    },
     eventCode : {
         type : String,
         required : [true, "your Event Code is Required"]

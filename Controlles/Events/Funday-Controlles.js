@@ -8,7 +8,7 @@ import Excel from 'exceljs'
 dotenv.config()
 
 export const AddNewBook = async (req,res,next) =>{
-    const {code,color,userID,isPaid,eventCode,dateTime} = req.body
+    const {code,name,color,userID,isPaid,eventCode,dateTime} = req.body
     if(!ObjectId.isValid(userID)){
         return res.status(400).json({message : "unvalid User ID"})
     }
@@ -20,6 +20,7 @@ export const AddNewBook = async (req,res,next) =>{
         }
         const funday = new Funday({
             code,
+            name,
             color,
             userID,
             isPaid,

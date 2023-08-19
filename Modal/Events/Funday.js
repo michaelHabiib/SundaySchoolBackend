@@ -7,6 +7,10 @@ const FundaySchema = new schema({
         type : String,
         required : [true, "your Code is Required"]
     },
+    code : {
+        type : String,
+        required : [true, "your name is Required"]
+    },
     eventCode : {
         type : String,
         required : [true, "your Event Code is Required"]
