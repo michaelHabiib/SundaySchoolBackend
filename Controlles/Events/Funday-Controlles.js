@@ -78,18 +78,18 @@ export const GetAllFundayResExcel = async (req,res,next) =>{
     try {
         const funday = await Event.find({eventCode})
         const data = await Funday.find({eventCode})
-        console.log(funday);
-        console.log(data);
-        for (const item of data) {
-            userid = item.userID.toString()
-            userData = await User.findById(userid)
-            item.userID = userData
-          }
+        // console.log(funday);
+        // console.log(data);
+        // for (const item of data) {
+        //     userid = item.userID.toString()
+        //     userData = await User.findById(userid)
+        //     item.userID = userData
+        //   }
           for (const item of data) {
             const rowValues = [
             funday[0].name,
             item.code,
-            item.userID.name,
+            item.name,
             item.color,
             item.isPaid,
             item.createdAt

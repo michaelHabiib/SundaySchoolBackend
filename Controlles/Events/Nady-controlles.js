@@ -43,8 +43,8 @@ export const GetAllNadyRes = async (req, res, next) =>{
     try {
         const data = await Nady.find({eventCode})
         for(const item of data){
-            const userData = await User.findById(item.userID).select('name')
-            item.userID = userData
+            // const userData = await User.findById(item.userID).select('name')
+            // item.userID = userData
             const GroupColor = await Event.findOne({ eventCode, 'availableColors._id': item.geroupID },
             { 'availableColors.$': 1 })
             item.geroupID = GroupColor
@@ -128,15 +128,15 @@ export const GetAllNadyResExcel = async (req,res,next) =>{
     try {
         const data = await Nady.find({eventCode})
         for (const item of data) {
-            userid = item.userID.toString()
-            userData = await User.findById(userid).select('name')
+            // userid = item.userID.toString()
+            // userData = await User.findById(userid).select('name')
             
-            if(userData){
-                item.userID = userData
-            }else{
-                item.userID = {name : 'Old User'}
-            }
-            console.log(item.userID);
+            // if(userData){
+            //     item.userID = userData
+            // }else{
+            //     item.userID = {name : 'Old User'}
+            // }
+            // console.log(item.userID);
             const GroupColor = await Event.findOne({ eventCode, 'availableColors._id': item.geroupID },
             { 'availableColors.$': 1 })
             item.geroupID = GroupColor
@@ -145,7 +145,7 @@ export const GetAllNadyResExcel = async (req,res,next) =>{
             console.log(item);
             const rowValues = [
               item.code,
-              item.userID.name,
+              item.name,
               item.geroupID.availableColors[0].color,  
               item.isPaid,
               item.createdAt
