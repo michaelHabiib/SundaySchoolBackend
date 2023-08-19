@@ -131,7 +131,7 @@ export const GetAllNadyResExcel = async (req,res,next) =>{
             userData = await User.findById(userid).select('name')
             console.log(userData);
             if(userData){
-                item.userID = {}
+                item.userID.name = 'Old User'
             }else{
                 item.userID = userData
             }
@@ -142,7 +142,7 @@ export const GetAllNadyResExcel = async (req,res,next) =>{
           for (const item of data) {
             const rowValues = [
               item.code,
-              item.userID ? item.userID.name : null,
+              item.userID.name,
               item.geroupID.availableColors[0].color,  
               item.isPaid,
               item.createdAt
