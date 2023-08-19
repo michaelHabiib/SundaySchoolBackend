@@ -7,7 +7,7 @@ const FundaySchema = new schema({
         type : String,
         required : [true, "your Code is Required"]
     },
-    code : {
+    name : {
         type : String,
         required : [true, "your name is Required"]
     },
