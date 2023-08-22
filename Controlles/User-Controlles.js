@@ -7,6 +7,14 @@ import Funday from "../Modal/Events/Funday";
 import Nady from "../Modal/Events/Nady";
 import dotenv from 'dotenv'
 dotenv.config()
+import Twilio from 'twilio';
+
+const accountSid = 'ACb95688a74953b8cc676c756d8911e607';
+const authToken = '68f8b87c1c45f334224a4b52aec3218c';
+const twilio = new Twilio(accountSid,authToken)
+
+
+
 
 // function to genrate Random code
 function generateRandomCode() {
@@ -237,5 +245,18 @@ export const UpdateUser = async (req, res, next) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
+
+export const sendMessage = async (req, res, next) => {
+  try {
+    twilio.messages.create({
+      body: 'Hello from Twilio!',
+      from: 'whatsapp:+201222353187', // Your Twilio WhatsApp number
+      to: 'whatsapp:+201276362661' // The recipient's WhatsApp number
+    })
+    res.status(200).json({message : 'message send Sucssfully'})
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 

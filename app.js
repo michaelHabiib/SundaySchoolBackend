@@ -9,6 +9,7 @@ import mailRoutes from "./routes/mail/mail-Routes";
 import cors from 'cors';
 import bodyParser from "body-parser";
 import EventRoutes from "./routes/Events/Event-Routes";
+import blogRoutes from "./routes/Blog-Routes";
 
 
 
@@ -38,6 +39,7 @@ app.use('/api/events', NadyRoutes)
 app.use('/api/Att', attRoutes)
 app.use('/api/mail', mailRoutes)
 app.use('/api/add', EventRoutes)
+app.use('/api/blog', blogRoutes)
 mongoose
   .connect(
     `mongodb+srv://Michael_Ramzy:${passWord}@cluster0.ofxqht3.mongodb.net/SundaySchools?retryWrites=true&w=majority`
