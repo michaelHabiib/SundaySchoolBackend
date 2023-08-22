@@ -19,7 +19,7 @@ export const AddNewBlog = async(req,res,next) => {
 }
 export const getAllBlogs = async (req,res,next) => {
     try {
-        const blogs = Blog.find({})
+        const blogs = await Blog.find({})
         res.status(200).json({blogs})
     } catch (error) {
         console.log(error);
