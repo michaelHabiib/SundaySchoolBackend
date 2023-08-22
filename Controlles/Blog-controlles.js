@@ -11,8 +11,8 @@ export const AddNewBlog = async(req,res,next) => {
         category
     });
     try {
-    await user.save()
-    return res.status(201).json(user.code)
+    await blog.save()
+    return res.status(201).json({blog, message : 'blog Added sucssfuly'})
     } catch (error) {
         console.log(error);
     }
