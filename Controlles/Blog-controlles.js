@@ -3,10 +3,10 @@ import mongoose from "mongoose";
 import Blog from "../Modal/Blog";
 
 export const AddNewBlog = async(req,res,next) => {
-    const {title,sub_title,Discrption,category} = req.body
+    const {title,sub_Title,Discrption,category} = req.body
     const blog = new Blog({
         title,
-        sub_title,
+        sub_Title,
         Discrption,
         category
     });
