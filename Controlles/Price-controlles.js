@@ -9,7 +9,7 @@ export const AddNewPricePlan = async(req,res,next) => {
         featuers
     });
     try {
-    await Price.save()
+    await price.save()
     return res.status(201).json({price, message : 'Price Added sucssfuly'})
     } catch (error) {
         console.log(error);
