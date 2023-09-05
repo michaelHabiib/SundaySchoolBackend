@@ -15,3 +15,11 @@ export const AddNewPricePlan = async(req,res,next) => {
         console.log(error);
     }
 }
+export const GetALLPricesPlans = async (req,res,next) => {
+    try {
+        const PricePlans = await Price.find()
+        return res.status(200).json({PricePlans})
+    } catch (error) {
+        console.log(error);
+    }
+}
