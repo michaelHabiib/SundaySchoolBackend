@@ -10,8 +10,7 @@ import cors from 'cors';
 import bodyParser from "body-parser";
 import EventRoutes from "./routes/Events/Event-Routes";
 import blogRoutes from "./routes/Blog-Routes";
-
-
+import PriceRoutes from "./routes/Price-Routes";
 
 const passWord = encodeURIComponent("Michael2023#");
 
@@ -40,6 +39,7 @@ app.use('/api/Att', attRoutes)
 app.use('/api/mail', mailRoutes)
 app.use('/api/add', EventRoutes)
 app.use('/api/blog', blogRoutes)
+app.use('/api/price', PriceRoutes)
 mongoose
   .connect(
     `mongodb+srv://Michael_Ramzy:${passWord}@cluster0.ofxqht3.mongodb.net/SundaySchools?retryWrites=true&w=majority`
