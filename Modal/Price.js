@@ -7,15 +7,15 @@ const PriceSchema = new schema({
         type: String,
         required: [true, " Your price Title is Required"],
       },
-      PlanPrice : {
+    PlanPrice : {
         type : String,
         required: [true, "your Plan Price is Required"],
       },
-      PlanLength : {
+    PlanLength : {
         type : String,
         required: [true, "your Plan Length is Required"],
       },
-      featuers : {
+    featuers : {
         type : Array,
         required : [true, 'Your Price Plan Featuers is Required']
       }
