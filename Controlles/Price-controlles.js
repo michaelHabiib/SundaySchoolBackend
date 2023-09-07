@@ -45,7 +45,7 @@ export const UpdatePrice = async (req, res, next) => {
         featuers} = req.body;
     const id = req.params.id
   
-    // try {
+    try {
         console.log(id);
       const plan = await Price.findById({_id : id});
         console.log(plan);
@@ -62,7 +62,7 @@ export const UpdatePrice = async (req, res, next) => {
       await plan.save();
   
       return res.status(200).json({ message: 'Price Plan updated successfully' });
-    // } catch (error) {
-    //   return res.status(500).json({ message: 'Internal server error' });
-    // }
+    } catch (error) {
+      return res.status(500).json({ message: 'Internal server error' });
+    }
   };
