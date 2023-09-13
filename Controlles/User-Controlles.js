@@ -8,6 +8,7 @@ import Nady from "../Modal/Events/Nady";
 import dotenv from 'dotenv'
 dotenv.config()
 import Twilio from 'twilio';
+import ultramsg from "ultramsg-whatsapp-api";
 
 const accountSid = 'ACb95688a74953b8cc676c756d8911e607';
 const authToken = '68f8b87c1c45f334224a4b52aec3218c';
@@ -48,9 +49,10 @@ export const AddNewUser = async(req,res,next) => {
     await user.save()
     return res.status(201).json(user.code)
     } catch (error) {
-        console.log(error);
+        // console.log(error);
     }
 }
+
 export const login = async (req, res, next) => {
   const {email, password} = req.body
   let UserId
@@ -74,7 +76,7 @@ export const GetAllUser = async(req, res, next) =>{
   try {
     users = await User.find()
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
   if(!users){
     return res.status(400).json({message : 'No Users found'})

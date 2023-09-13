@@ -10,9 +10,9 @@ export const AddNewPricePlan = async(req,res,next) => {
     });
     try {
     await price.save()
-    return res.status(201).json({price, message : 'Price Added sucssfuly'})
+    return res.status(201).json({price, message : 'Price Plan Added sucssfuly'})
     } catch (error) {
-        console.log(error);
+        // console.log(error);
     }
 }
 export const GetALLPricesPlans = async (req,res,next) => {
@@ -20,20 +20,20 @@ export const GetALLPricesPlans = async (req,res,next) => {
         const PricePlans = await Price.find()
         return res.status(200).json({PricePlans})
     } catch (error) {
-        console.log(error);
+        // console.log(error);
     }
 }
 export const DeletePricePlan = async (req, res, next) => {
     const id = req.params.id
     try {
-        console.log(id);
+        // console.log(id);
         const deletedPlan = await Price.findByIdAndRemove(id)
         if(!deletedPlan){
             return res.status(404).json({message : 'No Blog With this ID'})
         }
         return res.status(200).json({message : 'Deleted Sucssfully', deletedPlan})
     } catch (error) {
-        console.log(error);
+        // console.log(error);
     }
 }
 
@@ -46,9 +46,9 @@ export const UpdatePrice = async (req, res, next) => {
     const id = req.params.id
   
     try {
-        console.log(id);
+        // console.log(id);
       const plan = await Price.findById({_id : id});
-        console.log(plan);
+        // console.log(plan);
       if (!plan) {
         return res.status(404).json({ message: 'Price Plan not found' });
       }
