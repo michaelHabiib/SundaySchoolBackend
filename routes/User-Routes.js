@@ -1,7 +1,8 @@
 import express from "express";
 import {AddNewUser, GetAllUser, GetUsersByYear,
         GetUserBycode, login, GetAttendanceOfUser, DeleteUser, sendMessage,
-        GetUserCount, countUserInEachClass, getBirthdaysOfToday, UpdateUser } from "../Controlles/User-Controlles";
+        GetUserCount, countUserInEachClass, getBirthdaysOfToday, UpdateUser,
+        GetUserFundayReservtion, GetUserNadyReservtion } from "../Controlles/User-Controlles";
 import {verfiyIsAdmin} from '../middelwares/VerfiyAuth'
 const userRouter = express.Router();
 
@@ -19,5 +20,7 @@ userRouter.get("/att/:code", GetAttendanceOfUser)
 userRouter.delete("/delete/:code", DeleteUser)
 userRouter.post("/update", UpdateUser)
 userRouter.get("/message", sendMessage)
+userRouter.get("/reservtion/funday/:code", GetUserFundayReservtion)
+userRouter.get("/reservtion/nady/:code", GetUserNadyReservtion)
 export default userRouter;
     

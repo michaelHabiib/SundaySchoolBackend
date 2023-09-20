@@ -246,7 +246,6 @@ export const UpdateUser = async (req, res, next) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
-
 export const sendMessage = async (req, res, next) => {
   try {
     twilio.messages.create({
@@ -255,6 +254,34 @@ export const sendMessage = async (req, res, next) => {
       to: 'whatsapp:+201276362661' // The recipient's WhatsApp number
     })
     res.status(200).json({message : 'message send Sucssfully'})
+  } catch (error) {
+    console.log(error);
+  }
+}
+export const GetUserFundayReservtion = async (req, res, next) => {
+  let userCode = req.params.code
+  try {
+    const userReservtion = await Funday.find({code : userCode})
+    for(let i = 0; i < userReservtion.length; i++){
+      eventCode = userReservtion[i].eventCode
+      const eventName = await Event.findOne({eventCode})
+      userReservtion[i].eventName = eventName
+    }
+    return res.status(200).json(userReservtion)
+  } catch (error) {
+    console.log(error);
+  }
+}
+export const GetUserNadyReservtion = async (req, res, next) => {
+  let userCode = req.params.code
+  try {
+    const userReservtion = await Nady.find({code : userCode})
+    for(let i = 0; i < userReservtion.length; i++){
+      eventCode = userReservtion[i].eventCode
+      const eventName = await Event.findOne({eventCode})
+      userReservtion[i].eventName = eventName
+    }
+    return res.status(200).json(userReservtion)
   } catch (error) {
     console.log(error);
   }
