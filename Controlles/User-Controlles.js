@@ -5,6 +5,7 @@ import User from "../Modal/User";
 import Att from "../Modal/Events/Att";
 import Funday from "../Modal/Events/Funday";
 import Nady from "../Modal/Events/Nady";
+import Event from "../Modal/Events/Event";
 import dotenv from 'dotenv'
 dotenv.config()
 import Twilio from 'twilio';
@@ -263,9 +264,10 @@ export const GetUserFundayReservtion = async (req, res, next) => {
   try {
     const userReservtion = await Funday.find({code : userCode})
     for(let i = 0; i < userReservtion.length; i++){
-      eventCode = userReservtion[i].eventCode
-      const eventName = await Event.findOne({eventCode})
-      userReservtion[i].eventName = eventName
+      const eventCode = userReservtion[i].eventCode
+      const event = await Event.findOne({eventCode})
+      console.log(event);
+      userReservtion[i].eventCode = event.name
     }
     return res.status(200).json(userReservtion)
   } catch (error) {
@@ -277,9 +279,13 @@ export const GetUserNadyReservtion = async (req, res, next) => {
   try {
     const userReservtion = await Nady.find({code : userCode})
     for(let i = 0; i < userReservtion.length; i++){
-      eventCode = userReservtion[i].eventCode
-      const eventName = await Event.findOne({eventCode})
-      userReservtion[i].eventName = eventName
+      const eventCode = userReservtion[i].eventCode
+      const event = await Event.findOne({eventCode})
+      const GroupColor = await Event.findOne({ eventCode, 'availableColors._id': userReservtion[i].geroupID },
+      { 'availableColors.$': 1 })
+      console.log(event);
+      userReservtion[i].eventCode = event.name
+      userReservtion[i].geroupID = GroupColor
     }
     return res.status(200).json(userReservtion)
   } catch (error) {
